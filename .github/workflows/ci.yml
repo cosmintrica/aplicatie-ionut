@@ -1,0 +1,50 @@
+name: Windows checks
+
+'on':
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  check:
+    runs-on: windows-2022
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Python 3.12
+        id: python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+          architecture: x64
+
+      - name: Node.js 22
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+          package-manager-cache: false
+
+      - name: Install locked dependencies and import saved snapshots
+        env:
+          PROJECT_PYTHON_EXECUTABLE: ${{ steps.python.outputs.python-path }}
+        run: |
+          $nodeExecutable = (Get-Command node -ErrorAction Stop).Source
+          & .\scripts\Setup-Local.ps1 -PythonPath $env:PROJECT_PYTHON_EXECUTABLE -NodePath $nodeExecutable
+
+      - name: Parser checks, application tests and web build
+        run: .\scripts\Check-Local.ps1

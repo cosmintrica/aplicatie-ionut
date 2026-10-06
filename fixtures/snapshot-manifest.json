@@ -1,0 +1,245 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline_snapshot",
+  "manifest_recorded_at": "2026-10-05T15:05:30.0539318Z",
+  "timezone_policy": "Collection timestamps preserve their recorded UTC offsets. Monitor price datetimes have no declared timezone in these files. Workbook metadata and filename dates are not product price validity.",
+  "files": [
+    {
+      "path": "probe-data/bucharest-representative.xml",
+      "role": "monitor_quotes",
+      "sha256": "395e2c7a88953827c78d6bcbc047451ac5d1152f9f85091fdeed0c68b593f4ce",
+      "bytes": 101706,
+      "collected_at": "2026-10-05T14:31:04.5721154+00:00",
+      "collection_evidence_path": "probe-data/requests.json",
+      "request_url": "https://monitorulpreturilor.info/pmonsvc/Retail/GetStoresForProductsByLatLon?lat=44.4268&lon=26.1025&buffer=1000&csvprodids=1012187,1013048,1019036,1361463,1011559,1282436,1449689&OrderBy=price",
+      "request_reported_response_bytes": 101704,
+      "source_reported_price_datetimes_raw": [
+        "05.10.2026 04:00"
+      ],
+      "source_price_timezone": null,
+      "source_price_validity_at": null,
+      "file_metadata": null
+    },
+    {
+      "path": "probe-data/catalog.xml",
+      "role": "monitor_catalog",
+      "sha256": "7670d85b3b0b16b915d13457da3ea3b36c8676741a502a8b9aba3d8503a902c9",
+      "bytes": 19825758,
+      "collected_at": null,
+      "collection_evidence_path": null,
+      "request_url": null,
+      "request_reported_response_bytes": null,
+      "source_reported_price_datetimes_raw": [],
+      "source_price_timezone": null,
+      "source_price_validity_at": null,
+      "file_metadata": null
+    },
+    {
+      "path": "probe-data/lidl-parsed-2026-10-05.json",
+      "role": "lidl_stored_values",
+      "sha256": "64e6d905696438f45152babb34ada9d54109fe48492e878b9b126be483383e65",
+      "bytes": 567348,
+      "collected_at": null,
+      "collection_evidence_path": null,
+      "request_url": null,
+      "request_reported_response_bytes": null,
+      "source_reported_price_datetimes_raw": [],
+      "source_price_timezone": null,
+      "source_price_validity_at": null,
+      "file_metadata": {
+        "capture_date_from_filename": "2026-10-05",
+        "workbook_created_utc": "2026-10-04T20:08:49Z",
+        "workbook_modified_utc": "2026-10-04T20:08:50Z",
+        "metadata_is_not_price_validity": true
+      },
+      "original_sha256": "da97471d10390b49d3e16fbf6e45b1dd3fa17f492fc1484c54f2f8e203421274",
+      "sanitization": "absolute_local_paths_to_relative_metadata_only"
+    },
+    {
+      "path": "probe-data/lidl-preturiZilnice-2026-10-05.xlsb",
+      "role": "lidl_original_workbook",
+      "sha256": "5acbf28afe7e8c16626884dd9862d4572a59dce8e28e3872e7c896214ffbdc14",
+      "bytes": 90088,
+      "collected_at": null,
+      "collection_evidence_path": null,
+      "request_url": null,
+      "request_reported_response_bytes": null,
+      "source_reported_price_datetimes_raw": [],
+      "source_price_timezone": null,
+      "source_price_validity_at": null,
+      "file_metadata": {
+        "capture_date_from_filename": "2026-10-05",
+        "workbook_created_utc": "2026-10-04T20:08:49Z",
+        "workbook_modified_utc": "2026-10-04T20:08:50Z",
+        "metadata_is_not_price_validity": true
+      }
+    },
+    {
+      "path": "probe-data/lidl-summary-2026-10-05.json",
+      "role": "lidl_probe_report",
+      "sha256": "b51e094d776b334f5b2d2a49e8b3cd897d7029fa0c0a4eef0603e8e7858fed37",
+      "bytes": 2342,
+      "collected_at": null,
+      "collection_evidence_path": null,
+      "request_url": null,
+      "request_reported_response_bytes": null,
+      "source_reported_price_datetimes_raw": [],
+      "source_price_timezone": null,
+      "source_price_validity_at": null,
+      "file_metadata": {
+        "capture_date_from_filename": "2026-10-05",
+        "workbook_created_utc": "2026-10-04T20:08:49Z",
+        "workbook_modified_utc": "2026-10-04T20:08:50Z",
+        "metadata_is_not_price_validity": true
+      }
+    },
+    {
+      "path": "probe-data/networks.xml",
+      "role": "monitor_networks",
+      "sha256": "59a5c9bc83668adca6e2f504eea9ce4e2d8c797476f9f683752987e05ee03c4a",
+      "bytes": 1816,
+      "collected_at": null,
+      "collection_evidence_path": null,
+      "request_url": null,
+      "request_reported_response_bytes": null,
+      "source_reported_price_datetimes_raw": [],
+      "source_price_timezone": null,
+      "source_price_validity_at": null,
+      "file_metadata": null
+    },
+    {
+      "path": "probe-data/requests.json",
+      "role": "recorded_requests",
+      "sha256": "49d8d421fff5a3ebc78222a7c1d9230ba74ef6585f914cc7ac32abbdf19f7c74",
+      "bytes": 1113,
+      "collected_at": null,
+      "collection_evidence_path": null,
+      "request_url": null,
+      "request_reported_response_bytes": null,
+      "source_reported_price_datetimes_raw": [],
+      "source_price_timezone": null,
+      "source_price_validity_at": null,
+      "file_metadata": null
+    },
+    {
+      "path": "probe-data/slatina-milk-single.xml",
+      "role": "monitor_quotes_regression",
+      "sha256": "dd5a8cf8aadbf27a15b347d41d5c18b145a53769fae68f30d8a5d68c021efbec",
+      "bytes": 47371,
+      "collected_at": "2026-10-05T14:31:04.7946174+00:00",
+      "collection_evidence_path": "probe-data/requests.json",
+      "request_url": "https://monitorulpreturilor.info/pmonsvc/Retail/GetStoresForProductsByLatLon?lat=44.4281&lon=24.3726&buffer=5000&csvprodids=1012187&OrderBy=price",
+      "request_reported_response_bytes": 47369,
+      "source_reported_price_datetimes_raw": [
+        "05.10.2026 04:00"
+      ],
+      "source_price_timezone": null,
+      "source_price_validity_at": null,
+      "file_metadata": null
+    },
+    {
+      "path": "probe-data/slatina-representative.xml",
+      "role": "monitor_quotes",
+      "sha256": "640b2a0e55c4ba07ee88c5d89ce7975a4748d2ba0a90f89b02805949077603ca",
+      "bytes": 100173,
+      "collected_at": "2026-10-05T14:31:03.9187173+00:00",
+      "collection_evidence_path": "probe-data/requests.json",
+      "request_url": "https://monitorulpreturilor.info/pmonsvc/Retail/GetStoresForProductsByLatLon?lat=44.4281&lon=24.3726&buffer=5000&csvprodids=1012187,1013048,1019036,1361463,1011559,1282436,1449689&OrderBy=price",
+      "request_reported_response_bytes": 100171,
+      "source_reported_price_datetimes_raw": [
+        "05.10.2026 04:00"
+      ],
+      "source_price_timezone": null,
+      "source_price_validity_at": null,
+      "file_metadata": null
+    },
+    {
+      "path": "probe-data/slatina-three-products.xml",
+      "role": "monitor_quotes_regression",
+      "sha256": "e132eba8c121dde328e4776f70fe4a4ff994f8e3bb72dbb03841e0bdfbaeaacc",
+      "bytes": 61449,
+      "collected_at": null,
+      "collection_evidence_path": null,
+      "request_url": null,
+      "request_reported_response_bytes": null,
+      "source_reported_price_datetimes_raw": [
+        "05.10.2026 04:00"
+      ],
+      "source_price_timezone": null,
+      "source_price_validity_at": null,
+      "file_metadata": null
+    },
+    {
+      "path": "probe-data/summary.json",
+      "role": "monitor_probe_report",
+      "sha256": "b5c1b75cc0efbabbbc3b1895d8873545eec0de42fc09ffee7aaa6a3e6aab3df9",
+      "bytes": 145625,
+      "collected_at": null,
+      "collection_evidence_path": null,
+      "request_url": null,
+      "request_reported_response_bytes": null,
+      "source_reported_price_datetimes_raw": [],
+      "source_price_timezone": null,
+      "source_price_validity_at": null,
+      "file_metadata": null,
+      "original_sha256": "21dad454447d94e4a871165714cc47eb32438d73ba64030a2519d32050126dc3",
+      "sanitization": "absolute_local_paths_to_relative_metadata_only"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "slatina",
+      "label": "Slatina · 5 km",
+      "file": "probe-data/slatina-representative.xml",
+      "latitude": "44.4281",
+      "longitude": "24.3726",
+      "radius_m": 5000,
+      "store_count": 18,
+      "positive_dated_quotes": 65,
+      "requested_catalog_ids": [
+        "1012187",
+        "1013048",
+        "1019036",
+        "1361463",
+        "1011559",
+        "1282436",
+        "1449689"
+      ]
+    },
+    {
+      "id": "bucharest",
+      "label": "București · 1 km",
+      "file": "probe-data/bucharest-representative.xml",
+      "latitude": "44.4268",
+      "longitude": "26.1025",
+      "radius_m": 1000,
+      "store_count": 19,
+      "positive_dated_quotes": 73,
+      "requested_catalog_ids": [
+        "1012187",
+        "1013048",
+        "1019036",
+        "1361463",
+        "1011559",
+        "1282436",
+        "1449689"
+      ]
+    }
+  ],
+  "limitations": [
+    "Snapshot only; no current offers or stock verification.",
+    "Missing collection timestamps remain null, including catalog, networks, three-products and all Lidl files.",
+    "Source catalog IDs are associations, not verified cross-store identities.",
+    "Positive dated quotes do not verify price basis, VAT, SGR, shipping, card conditions or final payable cost.",
+    "Lidl sheet rows identify evidence within this workbook only, not stable SKU.",
+    "Original saved-file bytes may differ from request-reported response bytes; both values are preserved separately.",
+    "This manifest records the hashes of existing saved files, not an independently authenticated remote response."
+  ],
+  "public_export": {
+    "sanitized_files": [
+      "probe-data/lidl-parsed-2026-10-05.json",
+      "probe-data/summary.json"
+    ],
+    "price_records_modified": false
+  }
+}

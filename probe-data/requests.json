@@ -1,0 +1,26 @@
+[
+  {
+    "Name": "slatina-representative",
+    "Url": "https://monitorulpreturilor.info/pmonsvc/Retail/GetStoresForProductsByLatLon?lat=44.4281&lon=24.3726&buffer=5000&csvprodids=1012187,1013048,1019036,1361463,1011559,1282436,1449689&OrderBy=price",
+    "Status": 200,
+    "Bytes": 100171,
+    "ElapsedSeconds": 0.89,
+    "CollectedAt": "2026-10-05T14:31:03.9187173+00:00"
+  },
+  {
+    "Name": "bucharest-representative",
+    "Url": "https://monitorulpreturilor.info/pmonsvc/Retail/GetStoresForProductsByLatLon?lat=44.4268&lon=26.1025&buffer=1000&csvprodids=1012187,1013048,1019036,1361463,1011559,1282436,1449689&OrderBy=price",
+    "Status": 200,
+    "Bytes": 101704,
+    "ElapsedSeconds": 0.65,
+    "CollectedAt": "2026-10-05T14:31:04.5721154+00:00"
+  },
+  {
+    "Name": "slatina-milk-single",
+    "Url": "https://monitorulpreturilor.info/pmonsvc/Retail/GetStoresForProductsByLatLon?lat=44.4281&lon=24.3726&buffer=5000&csvprodids=1012187&OrderBy=price",
+    "Status": 200,
+    "Bytes": 47369,
+    "ElapsedSeconds": 0.22,
+    "CollectedAt": "2026-10-05T14:31:04.7946174+00:00"
+  }
+]

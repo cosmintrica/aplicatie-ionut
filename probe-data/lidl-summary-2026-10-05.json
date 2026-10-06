@@ -1,0 +1,100 @@
+{
+  "source_page": "https://www.lidl.ro/c/preturile-la-zi/s10019622",
+  "source_file": "https://www.lidl.ro/explore/assets/webPriceData/ro/preturiZilniceLidl.xlsb",
+  "capture_date_from_filename": "2026-10-05",
+  "file_bytes": 90088,
+  "sha256": "5acbf28afe7e8c16626884dd9862d4572a59dce8e28e3872e7c896214ffbdc14",
+  "file_created_utc": "2026-10-04T20:08:49Z",
+  "file_modified_utc": "2026-10-04T20:08:50Z",
+  "file_date_is_not_a_price_validity_date": true,
+  "product_rows": 2444,
+  "populated_columns": [
+    "Denumire comerciala",
+    "Gramaj",
+    "Categorie",
+    "Pret vanzare"
+  ],
+  "category_count": 34,
+  "numeric_price_rows": 2444,
+  "duplicate_name_pack_rows_above_unique": 8,
+  "source_page_states": [
+    "Same prices throughout Lidl Romania network",
+    "Permanent assortment list published Monday-Friday",
+    "Prices exclude SGR guarantee",
+    "Offers within available stock"
+  ],
+  "missing_structured_fields": [
+    "GTIN/EAN",
+    "SKU",
+    "price validity date",
+    "store id",
+    "stock",
+    "per-product SGR applicability",
+    "VAT"
+  ],
+  "examples": [
+    {
+      "excel_row": 329,
+      "values": [
+        "Apa de izvor/masa plata, 2L",
+        "2l",
+        "Bauturi",
+        1.49,
+        null,
+        null
+      ]
+    },
+    {
+      "excel_row": 589,
+      "values": [
+        "Bellarom Barista Cafea boabe sort.",
+        "500g",
+        "Cafea",
+        39.99,
+        null,
+        null
+      ]
+    },
+    {
+      "excel_row": 1153,
+      "values": [
+        "W5 Detergent de vase",
+        "500ml",
+        "Detergenti",
+        4.69,
+        null,
+        null
+      ]
+    },
+    {
+      "excel_row": 1514,
+      "values": [
+        "Floralys Hartie ig. 100% cel. 2 str.",
+        "8x200Foi",
+        "Hartie igienica si servetele",
+        9.99,
+        null,
+        null
+      ]
+    },
+    {
+      "excel_row": 1715,
+      "values": [
+        "Pilos Lapte de consum 3,5% ESL",
+        "1l",
+        "Lactate",
+        5.29,
+        null,
+        null
+      ]
+    }
+  ],
+  "reader_limit": "Stored values only; no Excel formula recalculation or formatting",
+  "present_supported_cell_record_counts": {
+    "1": 4357,
+    "2": 2198,
+    "5": 246,
+    "7": 7336
+  },
+  "formula_cell_record_count": 0
+}

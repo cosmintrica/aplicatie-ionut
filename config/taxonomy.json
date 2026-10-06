@@ -1,0 +1,926 @@
+{
+  "schema_version": "1.0",
+  "description": "Taxonomie internă pentru navigare și revizie. Existența unei categorii nu dovedește acoperirea ofertelor sau echivalența produselor.",
+  "categories": [
+    {
+      "id": "food",
+      "label": "Alimente",
+      "parent_id": null,
+      "critical_attributes": [],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "dairy",
+      "label": "Lactate",
+      "parent_id": "food",
+      "critical_attributes": [],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "milk",
+      "label": "Lapte",
+      "parent_id": "dairy",
+      "critical_attributes": [
+        "brand",
+        "product_line",
+        "species_or_base",
+        "fat_percentage",
+        "lactose_status",
+        "treatment",
+        "flavour",
+        "container_volume",
+        "container_count"
+      ],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "coffee",
+      "label": "Cafea",
+      "parent_id": "food",
+      "critical_attributes": [
+        "brand",
+        "product_line",
+        "coffee_form",
+        "decaffeinated",
+        "declared_blend",
+        "net_mass",
+        "unit_count",
+        "capsule_system"
+      ],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "drinks",
+      "label": "Băuturi",
+      "parent_id": null,
+      "critical_attributes": [],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "water",
+      "label": "Apă",
+      "parent_id": "drinks",
+      "critical_attributes": [
+        "brand",
+        "product_line",
+        "water_type",
+        "carbonation",
+        "flavour",
+        "container_volume",
+        "container_count",
+        "required_packaging"
+      ],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "cleaning",
+      "label": "Curățenie",
+      "parent_id": null,
+      "critical_attributes": [],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "detergents",
+      "label": "Detergenți",
+      "parent_id": "cleaning",
+      "critical_attributes": [
+        "intended_use",
+        "brand",
+        "product_line",
+        "formula_or_concentration",
+        "physical_form",
+        "net_quantity",
+        "required_compatibility"
+      ],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "hygiene",
+      "label": "Igienă",
+      "parent_id": null,
+      "critical_attributes": [],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "paper",
+      "label": "Hârtie igienică și șervețele",
+      "parent_id": "hygiene",
+      "critical_attributes": [
+        "intended_use",
+        "ply_count",
+        "declared_material",
+        "roll_or_pack_count",
+        "sheets_per_roll_or_length",
+        "sheet_dimensions_if_comparing_per_sheet"
+      ],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "office",
+      "label": "Birotică și papetărie",
+      "parent_id": null,
+      "critical_attributes": [],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "printer-paper",
+      "label": "Hârtie pentru imprimantă",
+      "parent_id": "office",
+      "critical_attributes": [
+        "paper_size",
+        "mass_g_per_m2",
+        "paper_type",
+        "colour",
+        "sheet_count",
+        "declared_compatibility"
+      ],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "stationery",
+      "label": "Papetărie",
+      "parent_id": "office",
+      "critical_attributes": [
+        "intended_use",
+        "manufacturer",
+        "model_or_type",
+        "dimensions",
+        "unit_count"
+      ],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "printing",
+      "label": "Consumabile pentru imprimante",
+      "parent_id": null,
+      "critical_attributes": [],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "toner",
+      "label": "Toner",
+      "parent_id": "printing",
+      "critical_attributes": [
+        "manufacturer_part_number",
+        "original_compatible_or_remanufactured",
+        "technology",
+        "colour",
+        "explicit_compatible_printers",
+        "declared_yield",
+        "yield_standard",
+        "region_or_firmware_if_required"
+      ],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "ink",
+      "label": "Cerneală",
+      "parent_id": "printing",
+      "critical_attributes": [
+        "manufacturer_part_number",
+        "original_compatible_or_remanufactured",
+        "technology",
+        "colour",
+        "explicit_compatible_printers",
+        "declared_capacity_or_yield",
+        "yield_standard",
+        "region_or_firmware_if_required"
+      ],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "electronics",
+      "label": "Electronice și IT",
+      "parent_id": null,
+      "critical_attributes": [],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "computers",
+      "label": "Laptopuri și calculatoare",
+      "parent_id": "electronics",
+      "critical_attributes": [
+        "manufacturer",
+        "exact_model",
+        "configuration_part_number",
+        "cpu",
+        "ram",
+        "storage_capacity",
+        "storage_type",
+        "gpu_if_present",
+        "relevant_display",
+        "included_operating_system",
+        "configuration_region"
+      ],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "phones",
+      "label": "Telefoane",
+      "parent_id": "electronics",
+      "critical_attributes": [
+        "manufacturer",
+        "exact_model",
+        "ram_if_variant",
+        "storage_capacity",
+        "connectivity",
+        "region_or_network",
+        "required_sim_configuration"
+      ],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "tablets",
+      "label": "Tablete",
+      "parent_id": "electronics",
+      "critical_attributes": [
+        "manufacturer",
+        "exact_model",
+        "ram_if_variant",
+        "storage_capacity",
+        "connectivity",
+        "region_or_network"
+      ],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "monitors",
+      "label": "Monitoare",
+      "parent_id": "electronics",
+      "critical_attributes": [
+        "manufacturer",
+        "exact_model",
+        "manufacturer_part_number",
+        "display_size",
+        "resolution",
+        "panel_type",
+        "required_connectivity"
+      ],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "appliances",
+      "label": "Electrocasnice",
+      "parent_id": null,
+      "critical_attributes": [
+        "manufacturer",
+        "exact_model",
+        "manufacturer_part_number",
+        "configuration_region"
+      ],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "furniture",
+      "label": "Mobilier",
+      "parent_id": null,
+      "critical_attributes": [
+        "manufacturer",
+        "model_or_reference",
+        "dimensions",
+        "material",
+        "configuration",
+        "unit_count"
+      ],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "materials",
+      "label": "Materiale",
+      "parent_id": null,
+      "critical_attributes": [
+        "material_type",
+        "grade_or_specification",
+        "dimensions",
+        "quantity",
+        "measurement_unit"
+      ],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "other",
+      "label": "Alte domenii",
+      "parent_id": null,
+      "critical_attributes": [],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "unclassified",
+      "label": "De clasificat",
+      "parent_id": null,
+      "critical_attributes": [],
+      "automatic_equivalence_enabled": false
+    },
+    {
+      "id": "produce",
+      "label": "Legume și fructe",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "meat-fish",
+      "label": "Carne și pește",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "processed-meat",
+      "label": "Mezeluri",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "cheese",
+      "label": "Brânzeturi",
+      "parent_id": "dairy",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "tea",
+      "label": "Ceai",
+      "parent_id": "drinks",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "cereals",
+      "label": "Cereale",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "frozen-food",
+      "label": "Alimente congelate",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "canned-food",
+      "label": "Conserve",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "sweets-snacks",
+      "label": "Dulciuri și gustări",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "ice-cream",
+      "label": "Înghețată",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "baking-ingredients",
+      "label": "Ingrediente pentru copt",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "sauces",
+      "label": "Sosuri și condimente preparate",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "spreads",
+      "label": "Miere, dulcețuri și creme",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "spices",
+      "label": "Mirodenii și condimente",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "eggs",
+      "label": "Ouă",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "bakery",
+      "label": "Pâine și patiserie",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "pasta",
+      "label": "Paste făinoase",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "fresh-food",
+      "label": "Alimente proaspete · categorie generală",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "staples",
+      "label": "Produse alimentare de bază",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "soups",
+      "label": "Supe și baze pentru supe",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "oils-fats",
+      "label": "Ulei, unt și margarină",
+      "parent_id": "food",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "cosmetics",
+      "label": "Cosmetice",
+      "parent_id": "hygiene",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "cleaning-supplies",
+      "label": "Articole pentru curățenie",
+      "parent_id": "cleaning",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "pet-supplies",
+      "label": "Hrană și articole pentru animale",
+      "parent_id": "other",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "baby",
+      "label": "Produse pentru copii · categorie generală",
+      "parent_id": "other",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "dietary-supplements",
+      "label": "Suplimente alimentare",
+      "parent_id": "other",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "tobacco",
+      "label": "Țigări și tutun",
+      "parent_id": "other",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    },
+    {
+      "id": "household",
+      "label": "Articole de uz casnic · categorie generală",
+      "parent_id": "other",
+      "critical_attributes": [
+        "product_type",
+        "brand_or_manufacturer",
+        "exact_variant_if_declared",
+        "net_quantity",
+        "pack_count"
+      ],
+      "automatic_equivalence_enabled": false,
+      "schema_status": "navigation_only_requires_category_specific_review"
+    }
+  ],
+  "statuses": {
+    "identity": [
+      "source_only",
+      "related_source_id",
+      "needs_review",
+      "confirmed_identity",
+      "conflict"
+    ],
+    "price_basis": [
+      "unknown",
+      "needs_review",
+      "confirmed"
+    ],
+    "classification": [
+      "mapped",
+      "unclassified",
+      "conflict"
+    ],
+    "relation": [
+      "SOURCE_ASSOCIATION",
+      "IDENTICAL_PACK",
+      "SAME_VARIANT_OTHER_PACK",
+      "FUNCTIONAL_EQUIVALENT",
+      "SUGGESTION",
+      "INCOMPATIBLE",
+      "UNRESOLVED"
+    ],
+    "result": [
+      "reported_quote",
+      "missing_quote",
+      "partial",
+      "needs_review",
+      "verified_complete"
+    ]
+  },
+  "rules": {
+    "source_category_is_evidence_not_truth": true,
+    "source_catalog_id_confirms_identity": false,
+    "missing_attribute_means_equal": false,
+    "price_zero_means_free": false,
+    "all_automatic_equivalence_disabled_in_e1a": true,
+    "unclassified_products_remain_searchable": true,
+    "category_specific_schema_required_before_equivalence": true,
+    "condition_warranty_and_included_accessories_required_for_electronics_offer_comparison": true
+  },
+  "source_category_mappings": {
+    "lidl": {
+      "Baby": {
+        "category_id": "baby",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Bauturi": {
+        "category_id": "drinks",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Branzeturi": {
+        "category_id": "cheese",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Cafea": {
+        "category_id": "coffee",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Carne si peste": {
+        "category_id": "meat-fish",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Ceai": {
+        "category_id": "tea",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Cereale": {
+        "category_id": "cereals",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Congelate": {
+        "category_id": "frozen-food",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Conserve": {
+        "category_id": "canned-food",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Cosmetice": {
+        "category_id": "cosmetics",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Detergenti": {
+        "category_id": "detergents",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Dulciuri si snackuri": {
+        "category_id": "sweets-snacks",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Hartie igienica si servetele": {
+        "category_id": "paper",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Hrana pentru animale": {
+        "category_id": "pet-supplies",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Inghetata": {
+        "category_id": "ice-cream",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Ingrediente pentru copt": {
+        "category_id": "baking-ingredients",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Ketchup, mustar, sosuri": {
+        "category_id": "sauces",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Lactate": {
+        "category_id": "dairy",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Legume si Fructe": {
+        "category_id": "produce",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Mezeluri": {
+        "category_id": "processed-meat",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Miere, dulceturi si alte creme": {
+        "category_id": "spreads",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Mirodenii si condimente": {
+        "category_id": "spices",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "OTC": {
+        "category_id": "unclassified",
+        "status": "requires_review",
+        "reason": "Codul OTC nu definește un tip suficient de precis; păstrăm categoria brută pentru revizie."
+      },
+      "Oua": {
+        "category_id": "eggs",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Paine si patiserie": {
+        "category_id": "bakery",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Paste fainoase": {
+        "category_id": "pasta",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Proaspete": {
+        "category_id": "fresh-food",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Produse de baza": {
+        "category_id": "staples",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Produse pentru curatenie": {
+        "category_id": "cleaning-supplies",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Supe si baze pentru supe": {
+        "category_id": "soups",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Suplimente alimentare": {
+        "category_id": "dietary-supplements",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Tigari si tigarete": {
+        "category_id": "tobacco",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Ulei, unt, margarina": {
+        "category_id": "oils-fats",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      },
+      "Uz casnic": {
+        "category_id": "household",
+        "status": "source_category_candidate",
+        "reason": "Categoria explicită a sursei susține navigarea provizorie; nu confirmă identitatea sau echivalența produselor."
+      }
+    }
+  }
+}

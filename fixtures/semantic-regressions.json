@@ -1,0 +1,438 @@
+{
+  "schema_version": "1.0",
+  "fixture_kind": "real_saved_probe",
+  "description": "Locators and unmodified source fields for conservative E1a regression; expected decisions do not assert verified commercial identities.",
+  "jacobs_variant_conflict": {
+    "records": [
+      {
+        "file": "probe-data/bucharest-representative.xml",
+        "locator": "RetailStores/Items/RetailStore[Id='1988']/Products/Product[Catprod/Id='1013048']",
+        "store_id": "1988",
+        "catalog_id": "1013048",
+        "product_id": "10692315574",
+        "catalog_name": "JACOBS KRONUNG ALINTAROMA 250G",
+        "commercial_name": "JACOBS KRONUNG INTENSE 250G",
+        "raw_brand": "Jacobs",
+        "raw_category": "CAFEA",
+        "raw_unit": "BUCATI",
+        "raw_price": "31.49",
+        "raw_price_date": "05.10.2026 04:00",
+        "raw_promo": ""
+      },
+      {
+        "file": "probe-data/bucharest-representative.xml",
+        "locator": "RetailStores/Items/RetailStore[Id='2117']/Products/Product[Catprod/Id='1013048']",
+        "store_id": "2117",
+        "catalog_id": "1013048",
+        "product_id": "10692750159",
+        "catalog_name": "JACOBS KRONUNG ALINTAROMA 250G",
+        "commercial_name": "JACOBS KRONUNG ALINTAROMA 250G",
+        "raw_brand": "Jacobs",
+        "raw_category": "CAFEA",
+        "raw_unit": "BUCATI",
+        "raw_price": "31.49",
+        "raw_price_date": "05.10.2026 04:00",
+        "raw_promo": ""
+      }
+    ],
+    "expected": {
+      "same_source_catalog_id": true,
+      "verified_identity": false,
+      "intense_relation": "INCOMPATIBLE",
+      "alintaroma_relation": "SOURCE_ASSOCIATION",
+      "payable_total": null,
+      "savings": null
+    }
+  },
+  "category_conflicts": [
+    {
+      "record": {
+        "file": "probe-data/slatina-representative.xml",
+        "locator": "RetailStores/Items/RetailStore[Id='7520']/Products/Product[Catprod/Id='1449689']",
+        "store_id": "7520",
+        "catalog_id": "1449689",
+        "product_id": "",
+        "catalog_name": "ARIEL DETERGENT LICH          ",
+        "commercial_name": "",
+        "raw_brand": "",
+        "raw_category": "LAPTE",
+        "raw_unit": "",
+        "raw_price": "0",
+        "raw_price_date": "",
+        "raw_promo": ""
+      },
+      "expected_relation": "INCOMPATIBLE",
+      "expected_internal_status": "conflict"
+    },
+    {
+      "record": {
+        "file": "probe-data/slatina-representative.xml",
+        "locator": "RetailStores/Items/RetailStore[Id='7520']/Products/Product[Catprod/Id='1282436']",
+        "store_id": "7520",
+        "catalog_id": "1282436",
+        "product_id": "",
+        "catalog_name": "FAIRY APPLE 800ML ",
+        "commercial_name": "",
+        "raw_brand": "",
+        "raw_category": "DEZINFECTANTI",
+        "raw_unit": "",
+        "raw_price": "0",
+        "raw_price_date": "",
+        "raw_promo": ""
+      },
+      "expected_relation": "INCOMPATIBLE",
+      "expected_internal_status": "conflict"
+    }
+  ],
+  "ambiguous_price_basis": [
+    {
+      "file": "probe-data/slatina-representative.xml",
+      "locator": "RetailStores/Items/RetailStore[Id='7520']/Products/Product[Catprod/Id='1013048']",
+      "store_id": "7520",
+      "catalog_id": "1013048",
+      "product_id": "10690146596",
+      "catalog_name": "JACOBS KRONUNG ALINTAROMA 250G",
+      "commercial_name": "CAFEA KRONUNG R&G 250G JACOBS",
+      "raw_brand": "JACOBS    ",
+      "raw_category": "CAFEA",
+      "raw_unit": "K",
+      "raw_price": "23.99",
+      "raw_price_date": "05.10.2026 04:00",
+      "raw_promo": ""
+    },
+    {
+      "file": "probe-data/slatina-representative.xml",
+      "locator": "RetailStores/Items/RetailStore[Id='7520']/Products/Product[Catprod/Id='1361463']",
+      "store_id": "7520",
+      "catalog_id": "1361463",
+      "product_id": "10690150370",
+      "catalog_name": "Borsec Apa plata 2l",
+      "commercial_name": "APA MIN NECARB 2L BORSEC.",
+      "raw_brand": "BORSEC    ",
+      "raw_category": "APA PLATA",
+      "raw_unit": "L",
+      "raw_price": "3.78",
+      "raw_price_date": "05.10.2026 04:00",
+      "raw_promo": ""
+    },
+    {
+      "file": "probe-data/slatina-representative.xml",
+      "locator": "RetailStores/Items/RetailStore[Id='5188']/Products/Product[Catprod/Id='1361463']",
+      "store_id": "5188",
+      "catalog_id": "1361463",
+      "product_id": "10443036613",
+      "catalog_name": "Borsec Apa plata 2l",
+      "commercial_name": "BORSEC APA MINERALA NATURALA PLATA 2L",
+      "raw_brand": "BORSEC",
+      "raw_category": "APA PLATA",
+      "raw_unit": "Litru",
+      "raw_price": "4.49",
+      "raw_price_date": "05.10.2026 04:00",
+      "raw_promo": ""
+    },
+    {
+      "file": "probe-data/slatina-representative.xml",
+      "locator": "RetailStores/Items/RetailStore[Id='7528']/Products/Product[Catprod/Id='1013048']",
+      "store_id": "7528",
+      "catalog_id": "1013048",
+      "product_id": "10649997194",
+      "catalog_name": "JACOBS KRONUNG ALINTAROMA 250G",
+      "commercial_name": "JACOBS KRONUNG INTENSE 250G",
+      "raw_brand": "JACOBS",
+      "raw_category": "CAFEA",
+      "raw_unit": "Kg",
+      "raw_price": "36.19",
+      "raw_price_date": "05.10.2026 04:00",
+      "raw_promo": ""
+    }
+  ],
+  "missing_quote": {
+    "record": {
+      "file": "probe-data/slatina-representative.xml",
+      "locator": "RetailStores/Items/RetailStore[Id='7520']/Products/Product[Catprod/Id='1011559']",
+      "store_id": "7520",
+      "catalog_id": "1011559",
+      "product_id": "",
+      "catalog_name": "APA MIN NECARB 2L BORSEC.",
+      "commercial_name": "",
+      "raw_brand": "",
+      "raw_category": "BAUTURI NEALCOOLICE",
+      "raw_unit": "",
+      "raw_price": "0",
+      "raw_price_date": "",
+      "raw_promo": ""
+    },
+    "expected": {
+      "usable_price": null,
+      "reported_price_is_not_free": true,
+      "no_transfer_from_catalog_id": "1361463"
+    }
+  },
+  "lidl_exact_duplicate_groups": [
+    {
+      "name": "- Pulpe de pui intregi",
+      "pack": "per kg",
+      "rows": [
+        {
+          "excel_row": 650,
+          "raw_values": [
+            "- Pulpe de pui intregi",
+            "per kg",
+            "Carne si peste",
+            11.5,
+            null,
+            null
+          ]
+        },
+        {
+          "excel_row": 669,
+          "raw_values": [
+            "- Pulpe de pui intregi",
+            "per kg",
+            "Carne si peste",
+            19.9,
+            null,
+            null
+          ]
+        }
+      ],
+      "expected": "Keep both source rows; name and pack alone do not justify identity merge or choosing one price."
+    },
+    {
+      "name": "Max's World Hrana umeda Pate pentru caini",
+      "pack": "300g",
+      "rows": [
+        {
+          "excel_row": 1527,
+          "raw_values": [
+            "Max's World Hrana umeda Pate pentru caini",
+            "300g",
+            "Hrana pentru animale",
+            4.49,
+            null,
+            null
+          ]
+        },
+        {
+          "excel_row": 1528,
+          "raw_values": [
+            "Max's World Hrana umeda Pate pentru caini",
+            "300g",
+            "Hrana pentru animale",
+            3.49,
+            null,
+            null
+          ]
+        }
+      ],
+      "expected": "Keep both source rows; name and pack alone do not justify identity merge or choosing one price."
+    },
+    {
+      "name": "Pilos Iaurt de baut 2%",
+      "pack": "400g",
+      "rows": [
+        {
+          "excel_row": 1665,
+          "raw_values": [
+            "Pilos Iaurt de baut 2%",
+            "400g",
+            "Lactate",
+            2.69,
+            null,
+            null
+          ]
+        },
+        {
+          "excel_row": 1666,
+          "raw_values": [
+            "Pilos Iaurt de baut 2%",
+            "400g",
+            "Lactate",
+            3.09,
+            null,
+            null
+          ]
+        }
+      ],
+      "expected": "Keep both source rows; name and pack alone do not justify identity merge or choosing one price."
+    },
+    {
+      "name": "Deluxe Crema de fistic",
+      "pack": "190g",
+      "rows": [
+        {
+          "excel_row": 1900,
+          "raw_values": [
+            "Deluxe Crema de fistic",
+            "190g",
+            "Miere, dulceturi si alte creme",
+            14.99,
+            null,
+            null
+          ]
+        },
+        {
+          "excel_row": 1902,
+          "raw_values": [
+            "Deluxe Crema de fistic",
+            "190g",
+            "Miere, dulceturi si alte creme",
+            15.99,
+            null,
+            null
+          ]
+        }
+      ],
+      "expected": "Keep both source rows; name and pack alone do not justify identity merge or choosing one price."
+    },
+    {
+      "name": "Optisana Supliment alimentar Complex A-Z",
+      "pack": "100buc",
+      "rows": [
+        {
+          "excel_row": 1939,
+          "raw_values": [
+            "Optisana Supliment alimentar Complex A-Z",
+            "100buc",
+            "OTC",
+            26.99,
+            null,
+            null
+          ]
+        },
+        {
+          "excel_row": 1941,
+          "raw_values": [
+            "Optisana Supliment alimentar Complex A-Z",
+            "100buc",
+            "OTC",
+            29.99,
+            null,
+            null
+          ]
+        }
+      ],
+      "expected": "Keep both source rows; name and pack alone do not justify identity merge or choosing one price."
+    },
+    {
+      "name": "Solevita Suc proaspat",
+      "pack": "1l",
+      "rows": [
+        {
+          "excel_row": 2117,
+          "raw_values": [
+            "Solevita Suc proaspat",
+            "1l",
+            "Proaspete",
+            15.99,
+            null,
+            null
+          ]
+        },
+        {
+          "excel_row": 2118,
+          "raw_values": [
+            "Solevita Suc proaspat",
+            "1l",
+            "Proaspete",
+            15.99,
+            null,
+            null
+          ]
+        }
+      ],
+      "expected": "Keep both source rows; name and pack alone do not justify identity merge or choosing one price."
+    },
+    {
+      "name": "W5 Laveta",
+      "pack": "5buc",
+      "rows": [
+        {
+          "excel_row": 2246,
+          "raw_values": [
+            "W5 Laveta",
+            "5buc",
+            "Produse pentru curatenie",
+            3.99,
+            null,
+            null
+          ]
+        },
+        {
+          "excel_row": 2247,
+          "raw_values": [
+            "W5 Laveta",
+            "5buc",
+            "Produse pentru curatenie",
+            5.99,
+            null,
+            null
+          ]
+        }
+      ],
+      "expected": "Keep both source rows; name and pack alone do not justify identity merge or choosing one price."
+    },
+    {
+      "name": "Primadonna Ulei de masline extravirgin",
+      "pack": "750ml",
+      "rows": [
+        {
+          "excel_row": 2341,
+          "raw_values": [
+            "Primadonna Ulei de masline extravirgin",
+            "750ml",
+            "Ulei, unt, margarina",
+            49.99,
+            null,
+            null
+          ]
+        },
+        {
+          "excel_row": 2344,
+          "raw_values": [
+            "Primadonna Ulei de masline extravirgin",
+            "750ml",
+            "Ulei, unt, margarina",
+            39.99,
+            null,
+            null
+          ]
+        }
+      ],
+      "expected": "Keep both source rows; name and pack alone do not justify identity merge or choosing one price."
+    }
+  ],
+  "lidl_case_only_candidate": {
+    "rows": [
+      {
+        "excel_row": 183,
+        "values": [
+          "Solevita Suc de portocale BIO 100%",
+          "1l",
+          "Bauturi",
+          16.99,
+          null,
+          null
+        ]
+      },
+      {
+        "excel_row": 413,
+        "values": [
+          "Solevita Suc de portocale bio 100%",
+          "1l",
+          "Bauturi",
+          12.99,
+          null,
+          null
+        ]
+      }
+    ],
+    "expected": "Different raw names (BIO/bio); lexical candidate only, separate source rows."
+  },
+  "limits": [
+    "No confirmed GTIN, SKU identity, price basis or checkout total in these fixtures.",
+    "Empty commercial fields remain empty; category conflicts must also inspect catalog names.",
+    "Eight additional exact name+pack duplicate rows; a case-insensitive key would also conflate BIO/bio.",
+    "Lidl Excel row numbers identify evidence within this file only."
+  ]
+}

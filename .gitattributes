@@ -1,0 +1,26 @@
+# Codul sursa foloseste LF pe orice sistem.
+* text=auto eol=lf
+*.py text
+*.ps1 text
+*.psm1 text
+*.ts text
+*.tsx text
+*.js text
+*.css text
+*.html text
+*.json text
+*.yml text
+*.yaml text
+*.toml text
+*.lock text
+*.md text
+*.sql text
+*.svg text
+
+# Probele si fixture-urile isi pastreaza bytes originali pentru verificarea SHA-256.
+probe-data/** binary -eol
+fixtures/** -text -eol whitespace=cr-at-eol
+*.xlsb binary -eol
+*.png binary -eol
+*.jpg binary -eol
+*.jpeg binary -eol
