@@ -1,6 +1,6 @@
 # Plan de implementare - Preturi achizitii
 
-**Plan inițial din 5 octombrie 2026, completat la 6 octombrie pentru conturi și emailuri.** Starea implementării și publicarea surselor sunt descrise în [README](../README.md).
+**Plan inițial din 5 octombrie 2026, completat la 6 octombrie pentru conturi și emailuri și la 7 octombrie pentru handover.** Starea implementării și publicarea surselor sunt descrise în [README](../README.md). Pentru preluare începe cu [HANDOVER.md](HANDOVER.md) și [AGENTS.md](../AGENTS.md).
 
 Construim o aplicație web pentru firme mici care transformă o listă de cumpărături sau o achiziție confirmată într-o comparație explicabilă a ofertelor accesibile. Avantajul principal este corectitudinea identității produsului și a costului pentru cantitatea necesară. Prima livrare folosește exclusiv probele salvate; extinderea la surse active, OCR și producție are etape verificabile, fără a bloca începutul local.
 
@@ -19,7 +19,7 @@ Planul inițial a fost elaborat înaintea implementării aplicației locale. Sur
 | [raportul probelor](../RAPORT_TESTARE.md), [VALIDARE_IDENTITATE_DATE.md](VALIDARE_IDENTITATE_DATE.md) | Evidență reală și limite. Validarea semantică nu trebuie confundată cu testele parserului. |
 | [CERCETARE_COMPARI.md](CERCETARE_COMPARI.md) | Cercetarea publică și sursele primare Compari.ro; referință, fără integrare de date autorizată. |
 
-Într-un conflict, cerințele utilizatorului și datele observate au prioritate. Pentru etape și livrare se urmează planul; pentru formule se urmează motorul; pentru schema implementată se urmează arhitectura. O neconcordanță descoperită se rezolvă documentat înaintea implementării acelei reguli, fără a suspenda lucrul independent.
+Într-un conflict, cerințele curente ale utilizatorului și datele observate au prioritate. Pentru comportamentul implementat, schema și API se verifică sursele, migrațiile, testele și [contractul actual](../backend/SMART_CONTRACT.md); arhitectura descrie și o destinație viitoare. Pentru etape și livrare se urmează planul, iar pentru formule și invarianti se urmează motorul. O neconcordanță se rezolvă documentat înaintea schimbării regulii relevante, fără a suspenda lucrul independent.
 
 ## 2. Promisiunea produsului și delimitarea
 
@@ -37,7 +37,7 @@ Nu intră în MVP local: checkout/plăți, comenzi ori emailuri către furnizori
 
 ## 3. Ce există și ce dovedește
 
-Directorul conține probe PowerShell/Python, XML/JSON/XLSB, teste și documente; nu conține aplicație sau repository Git inițializat. Nu mutăm și nu suprascriem probele originale. Folosim un manifest de snapshot cu SHA-256, scope, timestamps disponibile și limitările fiecărui fișier.
+La redactarea inițială existau numai probele. Acum repository-ul public conține aplicația locală E0/E1a, revizia UI/comparații, scripturi, lockuri, teste și documentație. Următoarea etapă recomandată este E1b. [Handover-ul](HANDOVER.md) separă capabilitățile implementate de criteriile viitoare. Nu mutăm și nu suprascriem probele pentru a face teste să treacă. Manifestul public reflectă normalizarea metadatelor descrisă în [PUBLICARE.md](PUBLICARE.md), cu SHA-256, scope, timestamps disponibile și limitările fiecărui fișier.
 
 | Evidență existentă | Utilizare în implementare | Ce nu demonstrează |
 |---|---|---|
@@ -80,7 +80,7 @@ Diferențiatorul aplicației este contextul firmei: facturi, cantități reale, 
 
 ### E1a - Primul flux util, exclusiv snapshot
 
-**Acesta este primul obiectiv de implementat cap-coadă.** Ecrane: pornire cu acoperire, catalog/căutare, listă, comparație, detaliu dovadă. Nu începe simultan toate dashboardurile finale.
+**Fluxul local este implementat, inclusiv revizia ulterioară a interfeței și motorului.** Cerințele de mai jos păstrează ținta și limitele etapei, fără a declara toate gates viitoare certificate. Ecrane: pornire cu acoperire, catalog/căutare, listă, comparație, detaliu dovadă. La preluare verifică baseline-ul și continuă E1b; nu reface aplicația de la zero.
 
 1. Importă toate cele 104.794 intrări ca produse ale sursei și 2.444 rânduri Lidl. Nu le promovează în masă la produse canonice confirmate. Taxonomia internă există pentru toate domeniile; mappingul se aplică numai când justificat, restul rămâne „de clasificat”.
 2. Creează un subset editorial inițial de maximum 30 articole relevante: lapte, cafea, apă, curățenie și hârtie, numai în măsura în care probele le susțin. Categoriile fără ofertă acceptă liste/text liber și explică lipsa acoperirii. Nu inventează produse pentru a atinge 30.
@@ -259,15 +259,15 @@ Scenariu de volum, explicit ipotetic: 100 firme × 20 facturi/lună × 2 pagini 
 
 Decizii care pot continua fără clarificări: stiva locală, taxonomia inițială, layout mobil, parsere snapshot, motorul conservator, import manual/CSV/UBL și testele. Dependențe de obținut ulterior: documente reale pentru OCR, validarea atributelor lipsă, acceptări comerciale, provider/auth/producție, regiune/retention finală și pragurile de utilitate economică ale fiecărei firme. Aceste lipsuri nu condiționează livrarea planului sau E1a.
 
-## 10. Checklist de preluare pentru chatul original
+## 10. Checklist de preluare pentru orice agent
 
 ### Înainte de cod
 
-- [ ] Citește cele patru documente de plan și validarea semantică; păstrează fișierele cercetătorilor și probele.
-- [ ] Confirmă prin inspecție starea directorului; nu presupune repository sau aplicație existente.
-- [ ] Fixează ținta curentă la **E0 + E1a**, apoi E1b; nu implementa simultan toate etapele.
+- [ ] Citește AGENTS, handover și README, apoi secțiunile de plan și validare relevante; păstrează sursele și probele.
+- [ ] Confirmă prin inspecție starea checkoutului; aplicația și repository-ul există deja. Păstrează modificările locale.
+- [ ] Verifică E0/E1a ca baseline; ținta recomandată este **E1b**, dacă utilizatorul nu cere altă prioritate. Nu implementa simultan toate etapele.
 - [ ] Înregistrează hashurile probelor și comenzile baseline; nu executa downloadul vechi peste `probe-data`.
-- [ ] Verifică executabilele reale, creează `.venv`, manifestele și lockfiles; dacă instalarea pachetelor este indisponibilă, raportează exact blocajul, fără a înlocui aplicația printr-un demo fals.
+- [ ] Verifică executabilele reale și folosește setupul și lockurile existente; `.venv` este în rădăcină. Dacă instalarea este indisponibilă, raportează exact blocajul, fără a înlocui aplicația printr-un demo fals.
 
 ### În timpul implementării
 
@@ -299,13 +299,13 @@ $foodProbe.CompleteBasketCount
 
 Rezultate așteptate: 104794, 48, 15; ultima valoare înseamnă acoperire numerică a ID-urilor. Nu o interpreta drept identitate semantică verificată.
 
-Contract de comenzi **de creat în E0**, nu existente la redactare: din `backend`, `.\.venv\Scripts\python.exe -m app.cli migrate`, `-m app.cli import-snapshots --manifest ..\fixtures\snapshot-manifest.json`, `-m pytest`; din `web`, `npm.cmd ci`, `npm.cmd run typecheck`, `npm.cmd run test -- --run`, `npm.cmd run build`, `npm.cmd run test:e2e`. Scriptul e2e pornește serverele loopback cu date izolate; nu atinge baza de lucru. Implementatorul consemnează exit code pentru fiecare comandă și se oprește între comenzi dependente la eroare.
+Comenzi **existente**, din rădăcină: `scripts/Setup-Local.ps1`, `scripts/Check-Local.ps1`, `scripts/Start-Local.ps1`, conform [README](../README.md). Setupul instalează dependențele fixate, construiește UI și importă probele; Check rulează parserul, regresiile Python și buildul. CLI-ul `app.cli` acceptă numai `seed` și `check`, ambele importând date; `migrate` și `import-snapshots` erau propuneri inițiale și nu există. Frontendul are `dev`, `typecheck`, `build`, `preview`, fără `test`/`test:e2e` în prezent. Nu se raportează instrumentele de test viitoare ca instalate ori executate. Implementatorul verifică exit code și se oprește între comenzi dependente la eroare.
 
 - [ ] Rulează testele afectate, typecheck/build și scenariile browser relevante; nu prezenta „scris” drept „verificat”.
 - [ ] Verifică hashurile probelor după lucru și declară orice diferență intenționată separat.
 - [ ] Testează replay/idempotency, restart/recovery și corectarea unui rezultat deja salvat.
 - [ ] Raportează funcțiile terminate, probele/testele, limitele reale și următoarea etapă precisă.
-- [ ] Încheie livrarea locală fără a publica sau a contracta servicii. Implementarea locală autorizată poate continua fără o nouă aprobare generală; acțiunile externe rămân în afara mandatului actual.
+- [ ] Actualizează starea README și handover-ul. Implementarea locală poate continua în scope-ul cerut; publicarea și serviciile externe urmează autorizarea din sesiunea curentă. Publicarea acestui repository a fost solicitată explicit, fără a autoriza automat găzduire sau conturi de servicii.
 
 ## 11. Cum evaluăm dacă produsul merită extins
 
@@ -317,4 +317,4 @@ Valoarea urmărită este o decizie de cumpărare mai bine justificată, nu un nu
 
 Cele patru documente au trecut o revizie integrată și o verificare punctuală a remediilor: etape, moduri temporale, reguli Monitor/Lidl, `BaseQuantity`, discounturi globale, costuri comune, ștergere și izolarea pilotului. Cele 32 referințe locale dintre documente și probe se rezolvă; blocurile de cod au delimitări echilibrate, fără marcatori de lucru rămași sau caractere de înlocuire de encoding.
 
-Verificarea read-only cu parserul existent a reprodus: 104.794 intrări de catalog, 12 nume goale, 48 cotații în subcoșul alimentar, 15 seturi complete la nivel de ID și minimul brut raportat de 33,86 lei. Nu s-a rescris `summary.json`. Cele 32 teste ale parserului sunt rezultatul consemnat în raportul inițial, nu o suită nouă executată pentru acest plan. Nu există încă o aplicație pentru care să fie raportate teste de funcționare, OCR sau precizie; acestea rămân criterii de acceptare ale implementării.
+Verificarea read-only cu parserul existent a reprodus: 104.794 intrări de catalog, 12 nume goale, 48 cotații în subcoșul alimentar, 15 seturi complete la nivel de ID și minimul brut raportat de 33,86 lei. Nu s-a rescris `summary.json`. Cele 32 teste ale parserului sunt rezultatul consemnat în raportul inițial, nu o suită nouă executată pentru acest plan. La redactarea inițială nu exista o aplicație. Ulterior, publicarea din 6 octombrie a trecut setupul curat, cele 75 teste Python, 32 verificări ale parserului și buildul pe [GitHub Actions](https://github.com/cosmintrica/aplicatie-ionut/actions/runs/37392153976). OCR-ul și precizia comercială rămân criterii viitoare; acest baseline nu le certifică.

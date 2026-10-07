@@ -8,7 +8,7 @@ import shutil
 
 
 DIRECTORIES = ("backend", "web", "config", "docs", "fixtures", "probe-data", "scripts", "tests", ".github")
-ROOT_FILES = (".gitignore", ".gitattributes", "README.md", "CERERE_INITIALA.md", "RAPORT_TESTARE.md")
+ROOT_FILES = (".gitignore", ".gitattributes", "AGENTS.md", "README.md", "CERERE_INITIALA.md", "RAPORT_TESTARE.md")
 EXCLUDED = {".git", ".venv", "node_modules", "dist", "var", "tmp", "__pycache__", ".pytest_cache", ".hypothesis"}
 SUFFIXES = {".pyc", ".sqlite", ".sqlite3", ".db", ".log"}
 

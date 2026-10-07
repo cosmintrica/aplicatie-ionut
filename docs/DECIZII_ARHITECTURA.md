@@ -2,6 +2,8 @@
 
 Proiectare inițială din 5 octombrie 2026, completată la 6 octombrie pentru conturi și emailuri. Deciziile acoperă și etape viitoare; [README](../README.md) descrie implementarea disponibilă. Documentele normative complementare sunt [planul](PLAN_IMPLEMENTARE.md), [specificația](SPECIFICATIE_PRODUS.md) și [regulile de corectitudine](MOTOR_CORECTITUDINE.md). Deciziile de mai jos sunt ale proiectului, nu descrieri ale arhitecturii Compari.ro.
 
+**Preluare la 7 octombrie 2026:** aplicația locală și dependențele fixate există deja. Arborele propus, uneltele de test și setările de mai jos includ destinații viitoare. Pentru configurația actuală, rutele și comenzile existente, urmează [HANDOVER.md](HANDOVER.md), sursele și [contractul motorului](../backend/SMART_CONTRACT.md). De exemplu, modul actual este `APP_MODE=local`, sănătatea este la `/api/v1/health`, iar Vitest/Playwright nu sunt încă instalate; nu copia setările istorice ca bootstrap nou.
+
 ## 1. Decizia de bază și granițele sistemului
 
 Construim un monolit modular, cu **React + TypeScript + Vite** pentru interfață și **Python 3.12 + FastAPI/Pydantic + SQLite** pentru API, date și calcule. Python execută parsarea, potrivirea și aritmetica cu `Decimal`; browserul afișează rezultate și trimite intențiile utilizatorului. Nici prețurile, nici verdictul unei potriviri nu sunt calculate independent în JavaScript. Fișierele originale rămân separat de baza de date. Nu sunt necesare conturi cloud, Docker, Redis, servicii vectoriale, un model generativ sau credențiale pentru prima etapă.
