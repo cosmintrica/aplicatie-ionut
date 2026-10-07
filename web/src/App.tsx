@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowRight, BarChart3, Building2, Check, ChevronDown, ClipboardList, Database, FileText, FolderOpen, ListPlus, MapPin, Plus, Settings2, ShoppingBasket, Store } from 'lucide-react';
 import { errorText, request, setCsrfToken, type Bootstrap, type CatalogItem, type Company, type Comparison as ComparisonData, type ShoppingLine, type ShoppingList } from './api';
 import { Catalog } from './Catalog';
@@ -7,6 +7,7 @@ import { Badge, Dialog, EmptyState, ErrorNotice, Loading, Notice } from './compo
 import { EvidenceDialog, ProductDialog } from './Details';
 import { Shopping } from './Shopping';
 import { Sources } from './Sources';
+import './workspace.css';
 
 type View = 'shopping' | 'catalog' | 'invoices' | 'analysis' | 'sources';
 const navigation = [{ id: 'shopping', name: 'Cumpărături', icon: ShoppingBasket }, { id: 'catalog', name: 'Catalog', icon: Store }, { id: 'invoices', name: 'Facturi', icon: FileText }, { id: 'analysis', name: 'Analiză', icon: BarChart3 }] as const;
@@ -53,6 +54,9 @@ export default function App() {
   const [error, setError] = useState('');
   const [status, setStatus] = useState('');
   const [retry, setRetry] = useState(0);
+  const productRequest = useRef<AbortController | null>(null);
+  const comparisonRequest = useRef<AbortController | null>(null);
+  useEffect(() => () => { productRequest.current?.abort(); comparisonRequest.current?.abort() }, []);
   useEffect(() => {
     const controller = new AbortController();
     setError('');
@@ -60,7 +64,9 @@ export default function App() {
     return () => controller.abort();
   }, [retry]);
 
+  function cancelComparison() { comparisonRequest.current?.abort(); comparisonRequest.current = null; setComparing(false) }
   function replaceList(list: ShoppingList) {
+    cancelComparison();
     setData((previous) => previous ? { ...previous, current_list: list } : previous);
     setComparison(null); setShowComparison(false);
   }
@@ -89,7 +95,7 @@ export default function App() {
   }
   async function removeLine(line: ShoppingLine) {
     if (!data) return;
-    if (await mutateList(`/lists/${data.current_list.id}/lines/${line.id}?expected_revision=${data.current_list.revision}`, 'DELETE', undefined, 'Linia a fost eliminată. Poți anula eliminarea.')) setRemoved(line);
+    if (await mutateList(`/lists/${data.current_list.id}/lines/${line.id}?expected_revision=${data.current_list.revision}`, 'DELETE', undefined, 'Linia a fost eliminată. Poți anula eliminarea.')) { setRemoved(line); if (resolvingLine?.id === line.id) setResolvingLine(null) }
   }
   async function undoRemove() {
     if (!data || !removed) return;
@@ -101,9 +107,12 @@ export default function App() {
   }
   async function compare() {
     if (!data) return;
-    setComparing(true); setError(''); setStatus('');
-    try { const result = await request<ComparisonData>('/comparisons', { method: 'POST', body: { list_id: data.current_list.id, expected_revision: data.current_list.revision, scenario_id: data.current_list.scenario_id } }); setComparison(result); setShowComparison(true); setView('shopping'); window.scrollTo({ top: 0, behavior: 'instant' }); }
-    catch (reason) { setError(errorText(reason)) } finally { setComparing(false) }
+    comparisonRequest.current?.abort();
+    const controller = new AbortController();
+    comparisonRequest.current = controller;
+    setComparing(true); setResolvingLine(null); setError(''); setStatus('');
+    try { const result = await request<ComparisonData>('/comparisons', { method: 'POST', signal: controller.signal, body: { list_id: data.current_list.id, expected_revision: data.current_list.revision, scenario_id: data.current_list.scenario_id } }); if (controller.signal.aborted) return; setComparison(result); setShowComparison(true); setView('shopping'); window.scrollTo({ top: 0, behavior: 'instant' }); }
+    catch (reason) { if (!controller.signal.aborted) setError(errorText(reason)) } finally { if (comparisonRequest.current === controller) { comparisonRequest.current = null; setComparing(false) } }
   }
   async function example() {
     if (!data) return;
@@ -113,7 +122,7 @@ export default function App() {
       const items = await Promise.all(['monitor:1012187', 'monitor:1019036', 'monitor:1361463'].map((id) => request<CatalogItem>(`/catalog/${encodeURIComponent(id)}`)));
       workingList = await request<ShoppingList>('/lists', { method: 'POST', body: { name: 'Exemplu Slatina · lapte, cafea 500 g și apă', scenario_id: 'slatina_5km' } });
       for (const item of items) workingList = await request<ShoppingList>(`/lists/${workingList.id}/lines`, { method: 'POST', body: { expected_revision: workingList.revision, source_product_id: item.id, description: item.name, quantity: '1', unit: 'item', category_id: item.category_id } });
-      replaceList(workingList); setRemoved(null); setStatus('Exemplul din Slatina a fost salvat ca listă separată. Nu a fost înregistrată o achiziție.');
+      replaceList(workingList); setRemoved(null); setResolvingLine(null); setStatus('Exemplul din Slatina a fost salvat ca listă separată. Nu a fost înregistrată o achiziție.');
     } catch (reason) { if (workingList) replaceList(workingList); setError(errorText(reason)) }
     finally { setBusy(false) }
   }
@@ -124,13 +133,25 @@ export default function App() {
     catch (reason) { setError(errorText(reason)); return false } finally { setBusy(false) }
   }
   async function selectList(id: string) {
+    closeProduct(); cancelComparison();
     setBusy(true); setError('');
-    try { replaceList(await request<ShoppingList>(`/lists/${encodeURIComponent(id)}`)); setRemoved(null); setView('shopping'); setStatus('Lista salvată a fost deschisă.'); return true }
+    try { replaceList(await request<ShoppingList>(`/lists/${encodeURIComponent(id)}`)); setRemoved(null); setResolvingLine(null); setSelected(null); setView('shopping'); setStatus('Lista salvată a fost deschisă.'); return true }
     catch (reason) { setError(errorText(reason)); return false } finally { setBusy(false) }
   }
-  async function createList(name: string) { if (!data) return false; const ok = await mutateList('/lists', 'POST', { name, scenario_id: data.current_list.scenario_id }, 'Lista nouă a fost creată și salvată local.'); if (ok) { setRemoved(null); setView('shopping') } return ok }
+  async function createList(name: string) { if (!data) return false; closeProduct(); cancelComparison(); const ok = await mutateList('/lists', 'POST', { name, scenario_id: data.current_list.scenario_id }, 'Lista nouă a fost creată și salvată local.'); if (ok) { setRemoved(null); setResolvingLine(null); setSelected(null); setView('shopping') } return ok }
   async function renameList(name: string) { if (!data) return false; return mutateList(`/lists/${data.current_list.id}`, 'PATCH', { expected_revision: data.current_list.revision, name }, 'Numele listei a fost salvat.') }
-  function navigate(next: View) { setView(next); setShowComparison(false); setResolvingLine(null); window.scrollTo({ top: 0, behavior: 'instant' }) }
+  function navigate(next: View) { cancelComparison(); closeProduct(); setView(next); setShowComparison(false); setResolvingLine(null); window.scrollTo({ top: 0, behavior: 'instant' }) }
+  async function openProduct(id: string) {
+    productRequest.current?.abort();
+    const controller = new AbortController();
+    productRequest.current = controller;
+    setError('');
+    try { const item = await request<CatalogItem>(`/catalog/${encodeURIComponent(id)}`, { signal: controller.signal }); if (!controller.signal.aborted) setSelected(item) }
+    catch (reason) { if (!controller.signal.aborted) setError(errorText(reason)) }
+  }
+  function selectProduct(item: CatalogItem) { productRequest.current?.abort(); setSelected(item) }
+  function resolveProduct(line: ShoppingLine) { closeProduct(); setResolvingLine(line) }
+  function closeProduct() { productRequest.current?.abort(); setSelected(null) }
   function openEvidence(id: string, referenceItemId?: string) { setEvidenceId(id); setEvidenceReference(referenceItemId) }
 
   if (!data) return <div className="startup"><div className="brand"><span className="brand-icon"><ShoppingBasket size={24} /></span><strong>Achiziții</strong></div>{error ? <ErrorNotice message={error} onRetry={() => setRetry((value) => value + 1)} /> : <Loading label="Se deschide spațiul local al firmei…" />}</div>;
@@ -142,12 +163,12 @@ export default function App() {
     <div className="workspace"><header className="topbar"><div className="mobile-brand"><span className="brand-icon"><ShoppingBasket size={20} aria-hidden="true" /></span><strong>Achiziții</strong></div><div className="desktop-context"><Building2 size={17} aria-hidden="true" /><button className="text-button" onClick={() => setShowCompany(true)}>{data.company.name}<ChevronDown size={15} aria-hidden="true" /></button><span className="context-divider" /><span>Achiziții pentru firmă</span></div><div className="topbar-actions"><div className="scenario-picker"><MapPin size={17} aria-hidden="true" /><label className="sr-only" htmlFor="scenario">Zona probelor salvate</label><select id="scenario" value={list.scenario_id} disabled={busy || comparing} onChange={(event) => updateScenario(event.target.value)}>{data.scenarios.map((value) => <option key={value.id} value={value.id}>{value.name}</option>)}</select></div><button className="icon-button mobile-settings" aria-label="Setările firmei locale" onClick={() => setShowCompany(true)}><Settings2 size={20} /></button></div></header>
       <div className="local-mode-bar"><span className="local-dot"><span />Prețuri salvate la 05.10.2026</span><button className="text-button" onClick={() => navigate('sources')}>Surse de date <ArrowRight size={14} aria-hidden="true" /></button></div>
       <main id="main" className="main-content" tabIndex={-1}>{error ? <ErrorNotice message={error} onRetry={() => setRetry((value) => value + 1)} /> : null}{status ? <div className="action-status" role="status"><Check size={17} aria-hidden="true" />{status}</div> : null}
-        {view === 'shopping' ? showComparison && comparison ? <Comparison data={comparison} onBack={() => setShowComparison(false)} onEvidence={openEvidence} /> : <Shopping list={list} categories={data.categories} sources={data.capabilities.sources} busy={busy} comparing={comparing} removed={removed} resolvingLine={resolvingLine} onResolve={setResolvingLine} onCancelResolve={() => setResolvingLine(null)} onUndo={undoRemove} onSelect={setSelected} onFreeLine={freeLine} onQuantity={changeQuantity} onRemove={removeLine} onCompare={compare} onExample={example} onCatalog={() => navigate('catalog')} onNewList={() => setShowLists(true)} /> : view === 'catalog' ? <Catalog categories={data.categories} sources={data.capabilities.sources} scenarioId={list.scenario_id} onSelect={setSelected} /> : view === 'sources' ? <Sources data={data} /> : <FuturePage view={view} onShopping={() => navigate('shopping')} />}
+        {view === 'shopping' ? showComparison && comparison ? <Comparison onOpenProduct={openProduct} data={comparison} onBack={() => setShowComparison(false)} onEvidence={openEvidence} /> : <Shopping key={list.id} list={list} categories={data.categories} sources={data.capabilities.sources} busy={busy} comparing={comparing} removed={removed} resolvingLine={resolvingLine} onResolve={resolveProduct} onCancelResolve={() => setResolvingLine(null)} onUndo={undoRemove} onOpenProduct={(id) => { setResolvingLine(null); return openProduct(id) }} onSelect={selectProduct} onFreeLine={freeLine} onQuantity={changeQuantity} onRemove={removeLine} onCompare={compare} onExample={example} onCatalog={() => navigate('catalog')} onNewList={() => setShowLists(true)} /> : view === 'catalog' ? <Catalog categories={data.categories} sources={data.capabilities.sources} scenarioId={list.scenario_id} onSelect={selectProduct} /> : view === 'sources' ? <Sources data={data} /> : <FuturePage view={view} onShopping={() => navigate('shopping')} />}
         <footer className="page-footer"><span>Achiziții · versiune locală</span><span>{activeScenario?.name} · probe din 05.10.2026</span><button className="text-button mobile-lists" onClick={() => setShowLists(true)}><ListPlus size={16} aria-hidden="true" />Liste salvate</button></footer>
       </main>
     </div>
     <nav className="bottom-nav" aria-label="Navigare principală pe telefon">{navigation.map(({ id, name, icon: Icon }) => <button key={id} className={view === id ? 'active' : ''} aria-current={view === id ? 'page' : undefined} onClick={() => navigate(id)}><Icon size={22} aria-hidden="true" /><span>{name}</span></button>)}</nav>
-    {selected ? <ProductDialog item={selected} categories={data.categories} sources={data.capabilities.sources} scenarioId={list.scenario_id} busy={busy} resolving={!!resolvingLine} initialQuantity={resolvingLine?.quantity ?? '1'} onAdd={addItem} onClose={() => setSelected(null)} onEvidence={openEvidence} /> : null}
+    {selected ? <ProductDialog key={selected.id} item={selected} categories={data.categories} sources={data.capabilities.sources} scenarioId={list.scenario_id} busy={busy} resolving={!!resolvingLine} initialQuantity={resolvingLine?.quantity ?? '1'} onAdd={addItem} onClose={closeProduct} onOpenProduct={openProduct} onEvidence={openEvidence} /> : null}
     {evidenceId ? <EvidenceDialog id={evidenceId} referenceItemId={evidenceReference} onClose={() => setEvidenceId(null)} /> : null}
     {showCompany ? <CompanyDialog company={data.company} onSave={saveCompany} onClose={() => setShowCompany(false)} /> : null}
     {showLists ? <ListsDialog list={list} busy={busy} onSelect={selectList} onCreate={createList} onRename={renameList} onClose={() => setShowLists(false)} /> : null}

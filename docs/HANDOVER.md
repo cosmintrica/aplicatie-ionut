@@ -21,7 +21,7 @@ Cerințele sunt în [CERERE_INITIALA.md](../CERERE_INITIALA.md) și [CERINTE_EXT
 | Protecție locală | Host/origin loopback, sesiune și CSRF; aceasta nu este autentificare pentru mai multe firme |
 | Livrare | Cod public, lockuri, scripturi Windows, teste, documente și capturi; GitHub Actions fără deploy |
 
-E0/E1a sunt livrate ca versiune locală utilă, cu revizia ulterioară UI/motor. Aceasta nu certifică toate țintele viitoare de matching, performanță, accesibilitate sau producție. Codul și [SMART_CONTRACT.md](../backend/SMART_CONTRACT.md) descriu capabilitățile existente: „Aceleași caracteristici” este candidat pe atribute, nu identitate GTIN confirmată. `payable_total`, `savings` și `estimated_savings` nu se completează din estimările actuale.
+E0/E1a sunt livrate ca versiune locală utilă, cu [revizia UI/corelare din 7 octombrie](REVIZIE_UX_CORELARE.md). Aceasta adaugă alternative pe kg/l, schimbarea produsului ales, detalierea coșului, export CSV și gardele pentru utilizare/variantă/formă. Motorul curent are `algorithm_version=attributes-and-unit-prices-3`. Aceasta nu certifică toate țintele viitoare de matching, performanță, accesibilitate sau producție. Codul și [SMART_CONTRACT.md](../backend/SMART_CONTRACT.md) descriu capabilitățile existente: „Aceleași caracteristici” este candidat pe atribute, nu identitate GTIN confirmată. `payable_total`, `savings` și `estimated_savings` nu se completează din estimările actuale.
 
 Nu sunt implementate: achiziții confirmate, import manual/CSV/UBL/PDF, OCR, economie realizată, recomandări ferme pe istoric, colectare continuă, login/OIDC, membership pentru mai multe firme, emailuri și producție. Nicio integrare Supabase sau Compari.ro nu este configurată prin publicarea codului. Investigația Compari documentează feeduri și identificatori, nu oferă acces la catalogul lor.
 
@@ -59,7 +59,7 @@ Configurația actuală folosește `APP_MODE=local`, implicit, și opțional `APP
 
 ## 5. Verificări și baseline
 
-La publicarea din 6 octombrie, [GitHub Actions](https://github.com/cosmintrica/aplicatie-ionut/actions/runs/37392153976) a pornit un checkout nou, a instalat dependențele, a construit UI și a importat probele. Rezultat: 75 teste Python, 32 verificări PowerShell și build TypeScript/Vite trecute. Există un avertisment Starlette/TestClient privind httpx, fără eșecuri. Actualizează numărul testelor dacă adaugi regresii.
+La publicarea din 6 octombrie, [GitHub Actions](https://github.com/cosmintrica/aplicatie-ionut/actions/runs/37392153976) a pornit un checkout nou, a instalat dependențele, a construit UI și a importat probele. Rezultat: 75 teste Python, 32 verificări PowerShell și build TypeScript/Vite trecute. Există un avertisment Starlette/TestClient privind httpx, fără eșecuri. Revizia din 7 octombrie a trecut local 112 teste Python (37 regresii noi de corelare), 32 verificări PowerShell și build TypeScript/Vite. Testarea browser a folosit Chromium/Playwright din runtime-ul agentului, cu bază izolată; acestea nu au fost adăugate ca dependențe sau script npm al proiectului. Raportul este în [REVIZIE_UX_CORELARE.md](REVIZIE_UX_CORELARE.md).
 
 `scripts/Check-Local.ps1` rulează parserul, testele backend/regresii și buildul. Setupul trebuie să existe, iar Node/npm să fie în PATH. Pentru documentație, verifică linkurile, comenzile și consistența; baseline-ul de mai sus este o execuție istorică, nu o afirmație că fiecare checkout a fost testat deja.
 

@@ -14,7 +14,8 @@ export interface CatalogItem {
   price_summary?: { minimum: Money | null; maximum: Money | null; spread?: Money | null; offer_count: number; candidate_count: number; conflict_count: number; needs_details_count: number; scope: string; label: string };
   profile?: ProductProfile;
 }
-export interface ProductProfile { kind?: string | null; brand?: string | null; pack?: { dimension: string; amount: string; unit: string; count?: number; label?: string } | null; fat_percent?: string | null; form?: string | null; variant?: string | null; processing?: string | null }
+export interface ProductProfile { kind?: string | null; brand?: string | null; pack?: { dimension: string; amount: string; unit: string; count?: number; label?: string } | null; fat_percent?: string | null; form?: string | null; variant?: string | null; processing?: string | null; purpose?: string | null; range?: string | null; water_type?: string | null; concentration?: string | null }
+export interface UnitPrice extends Money { unit: 'kg' | 'l'; label: string; basis: string }
 export interface ShoppingLine { id: string; source_product_id: string | null; source_product_name?: string | null; description: string; quantity: string; unit: 'item'; category_id: string | null; price_summary?: CatalogItem['price_summary']; profile?: ProductProfile }
 export interface ShoppingList { id: string; name: string; scenario_id: string; revision: number; lines: ShoppingLine[] }
 export interface Capabilities {
@@ -29,11 +30,13 @@ export interface Quote {
   raw_unit: string | null; raw_promo: string | null; price: Money | null; source_priced_at: string | null; retrieved_at: string | null;
   relation: 'SOURCE_ASSOCIATION' | 'INCOMPATIBLE' | 'UNRESOLVED'; conflicts: string[]; unknowns: string[];
   verdict?: 'same_variant_candidate' | 'variant_conflict' | 'needs_details'; verdict_label?: string; match_reasons?: string[]; profile?: ProductProfile;
-  price_basis?: { status: 'declared_pack' | 'structured_pack' | 'equivalent_one_litre' | 'ambiguous'; label: string; quantity_eligible: boolean };
+  price_basis?: { status: 'declared_pack' | 'structured_pack' | 'equivalent_one_litre' | 'declared_mass_unit' | 'ambiguous'; label: string; quantity_eligible: boolean };
   estimated_item_total?: Money;
+  unit_price?: UnitPrice | null;
+  alternative?: { kind: 'different_pack'; status: 'compatible_characteristics' | 'needs_details'; label: string; changes: string[]; reasons: string[] };
   store?: { id: string; name: string; network_name: string | null; address: string | null } | null;
 }
-export interface OfferResponse { item: CatalogItem; scenario: Scenario; quotes: Quote[]; related_offers?: Quote[]; warnings: string[] }
+export interface OfferResponse { item: CatalogItem; scenario: Scenario; quotes: Quote[]; related_offers?: Quote[]; pack_alternatives?: Quote[]; warnings: string[] }
 export interface Evidence extends Quote { snapshot: Snapshot; source_catalog_id: string; source_product_id: string; raw_category: string | null; locator: string; raw_record: unknown }
 export interface QuoteSum {
   source_scope: 'geographic_store' | 'network_list';
@@ -52,8 +55,11 @@ export interface Comparison {
   estimated_savings?: Money | null;
 }
 export interface LineComparison {
+  source_product_name?: string | null; source_product_id?: string | null;
   line_id: string; description: string; quantity: string; reference_profile: ProductProfile; options: Quote[]; comparable_options: Quote[]; conflicting_options: Quote[]; needs_details_options: Quote[];
   price_min: Money | null; price_max: Money | null; price_spread: Money | null; best_option: Quote | null;
+  pack_alternatives?: Quote[];
+  unit_price_groups?: { id: string; label: string; unit: 'kg' | 'l'; options: Quote[]; minimum: UnitPrice; maximum: UnitPrice; spread: UnitPrice; best_option: Quote; explanation: string }[];
   groups: { id: string; label: string; profile: ProductProfile; options: Quote[]; minimum: Money | null; maximum: Money | null; spread: Money | null; basis_label: string; estimate_eligible: boolean }[]; warnings: string[];
 }
 
@@ -120,4 +126,8 @@ export function categoryOptions(categories: Category[]): { category: Category; l
   for (const category of children.get(null) ?? []) visit(category, 0);
   for (const category of categories) if (!visited.has(category.id)) visit(category, 0);
   return result;
+}
+
+export function quoteSourceLabel(quote: Quote): string {
+  return quote.store?.name ?? (quote.source_id === 'lidl' ? 'Lidl · listă națională' : quote.source_id === 'monitor' ? 'Monitorul Prețurilor' : quote.source_id);
 }

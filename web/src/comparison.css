@@ -1,0 +1,192 @@
+.comparison-workspace { --cmp-navy: #142d3b; --cmp-teal: #087f73; min-width: 0; }
+.cmp-page-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
+.cmp-page-actions .back-link { margin: 0; }
+.cmp-page-actions .button { font-size: 12px; }
+.cmp-export-status { color: #27635c; background: #eaf7f3; padding: 10px 14px; border-radius: 8px; font-size: 12px; }
+.cmp-hero { background: var(--cmp-navy); color: #fff; border-radius: 16px; display: grid; grid-template-columns: minmax(0,1.3fr) minmax(220px,.7fr); padding: 30px; gap: 25px; }
+.cmp-eyebrow { display: block; color: #657f87; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 7px; }
+.cmp-hero .cmp-eyebrow { color: #94c9c0; }
+.cmp-hero h1 { font-size: clamp(26px,2.5vw,36px); letter-spacing: -1px; margin-bottom: 12px; max-width: 420px; }
+.cmp-hero > div > p { color: #c3d2d9; font-size: 13px; margin-bottom: 18px; }
+.cmp-hero-note { display: flex; align-items: flex-start; gap: 7px; color: #b5c9ce; font-size: 11px; max-width: 380px; }
+.cmp-hero-result { border-left: 1px solid #42606b; padding-left: 28px; align-self: center; min-width: 0; }
+.cmp-hero-result > span { display: block; color: #c0d8da; font-size: 11px; margin-bottom: 5px; }
+.cmp-hero-result > strong { display: block; color: #b4eed7; font-size: clamp(28px,3vw,39px); font-weight: 650; line-height: 1.2; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; letter-spacing: -1px; }
+.cmp-hero .cmp-hero-result > p { margin: 7px 0 10px; font-size: 12px; color: #e1ecee; overflow-wrap: anywhere; }
+.cmp-hero-result > button { color: #c5f4e4; display: inline-flex; align-items: center; gap: 8px; background: none; border: 0; padding: 6px 0; font-size: 12px; min-height: 44px; text-align: left; }
+.cmp-hero-result > button:hover { color: #fff; text-decoration: underline; }
+.cmp-hero-result > .cmp-no-basket { font-size: 21px; letter-spacing: -.3px; margin-top: 8px; }
+.cmp-metrics { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; margin: 16px 0 26px; }
+.cmp-metrics > div { display: flex; align-items: center; gap: 12px; padding: 16px 18px; background: #fff; border: 1px solid var(--border); border-radius: 12px; min-width: 0; }
+.cmp-metric-icon { width: 39px; height: 39px; border-radius: 11px; display: flex; align-items: center; justify-content: center; color: #24796e; background: #eef7f4; flex: 0 0 auto; }
+.cmp-metrics strong { display: block; font-size: 23px; color: var(--cmp-navy); line-height: 1.25; font-variant-numeric: tabular-nums; }
+.cmp-metrics > div > div > span { display: block; font-size: 11px; color: var(--muted); margin-top: 3px; }
+.comparison-workspace > .panel { margin-bottom: 24px; border-radius: 13px; }
+.comparison-workspace .section-heading { padding: 22px 24px; }
+.comparison-workspace .section-heading p { max-width: 650px; }
+.comparison-workspace .price-spread { flex: 0 0 auto; align-self: center; }
+.comparison-workspace .price-spread strong { color: var(--cmp-teal); }
+.cmp-basket-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,210px),1fr)); gap: 12px; padding: 0 24px 18px; }
+.cmp-basket-card { min-width: 0; border: 1px solid #dce6e6; border-radius: 11px; padding: 16px; display: flex; flex-direction: column; align-items: flex-start; background: #fff; }
+.cmp-basket-card.is-best { border-color: #82beb0; background: #f4fbf7; }
+.cmp-basket-card.is-selected { outline: 2px solid #247e71; outline-offset: 1px; }
+.cmp-basket-card-top { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 8px; margin-bottom: 14px; font-size: 10px; color: var(--muted); }
+.cmp-rank { width: 25px; height: 25px; display: inline-flex; align-items: center; justify-content: center; background: #edf3f2; color: #4c6a65; border-radius: 7px; font-weight: 700; flex: 0 0 auto; }
+.cmp-basket-card-top .badge { font-size: 9px; padding: 3px 5px; text-align: center; }
+.cmp-basket-card h3 { color: var(--cmp-navy); font-size: 14px; line-height: 1.5; margin: 0 0 6px; overflow-wrap: anywhere; }
+.cmp-basket-card > p { font-size: 11px; color: var(--muted); margin: 0 0 18px; }
+.cmp-basket-cost { display: block; color: var(--cmp-navy); font-size: 24px; font-variant-numeric: tabular-nums; margin-top: auto; overflow-wrap: anywhere; }
+.cmp-basket-card.is-best .cmp-basket-cost { color: #176854; }
+.cmp-basket-card > small { display: block; font-size: 10px; color: var(--muted); margin: 2px 0 17px; min-height: 30px; }
+.cmp-basket-card > .button { width: 100%; min-height: 42px; padding: 7px 8px; font-size: 11px; gap: 5px; }
+.cmp-cost-note { display: flex; align-items: flex-start; gap: 8px; padding: 0 24px 20px; font-size: 11px; color: var(--muted); margin: 0; }
+.cmp-basket-contents { margin: 2px 24px 20px; background: #f9fbfb; border: 1px solid #dce7e5; border-radius: 10px; padding: 18px; }
+.cmp-basket-contents-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; padding-bottom: 12px; }
+.cmp-basket-contents-heading h3 { font-size: 18px; margin-bottom: 3px; }
+.cmp-basket-contents-heading p { font-size: 11px; color: var(--muted); margin: 0; }
+.cmp-basket-contents > ul { list-style: none; padding: 0; margin: 0; }
+.cmp-basket-contents > ul > li { display: grid; grid-template-columns: 38px minmax(0,1fr) auto; align-items: center; gap: 14px; padding: 14px 0; border-top: 1px solid #e0e8e7; }
+.cmp-basket-quantity { display: block; background: #e9f1ef; border-radius: 7px; text-align: center; color: #3b665d; padding: 7px 3px; font-weight: 650; font-size: 15px; overflow-wrap: anywhere; }
+.cmp-basket-quantity small { display: block; font-size: 9px; font-weight: 400; }
+.cmp-basket-product strong { display: block; font-size: 13px; overflow-wrap: anywhere; }
+.cmp-basket-product > span { display: block; font-size: 11px; color: var(--muted); margin-top: 3px; overflow-wrap: anywhere; }
+.cmp-basket-product small { display: block; font-size: 10px; color: var(--muted); margin-top: 4px; }
+.cmp-basket-line-total { text-align: right; }
+.cmp-basket-line-total > strong { font-size: 17px; font-variant-numeric: tabular-nums; color: var(--cmp-navy); }
+.cmp-basket-line-total .text-button { font-size: 11px; min-height: 30px; margin-left: auto; }
+.cmp-basket-summary { display: flex; align-items: center; justify-content: space-between; gap: 15px; border-top: 1px solid #d5e3df; padding-top: 16px; margin-top: 3px; }
+.cmp-basket-summary > span { font-size: 12px; color: var(--muted); }
+.cmp-basket-summary > strong { color: #176854; font-size: 23px; font-variant-numeric: tabular-nums; }
+.cmp-basket-contents > .disclosure { margin-bottom: 0; }
+.cmp-context-note { display: flex; gap: 10px; align-items: flex-start; padding: 16px 18px; background: #f4f7f8; color: #526971; border: 1px solid #dde7e9; border-radius: 10px; margin-bottom: 24px; }
+.cmp-context-note > p { margin: 0; font-size: 12px; }
+.cmp-context-note .text-button { display: inline-flex; padding: 0; font-size: inherit; min-height: 30px; }
+.cmp-store-filter { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; min-height: 44px; flex-shrink: 0; color: var(--muted); }
+.cmp-store-filter input { width: 16px; height: 16px; accent-color: var(--cmp-teal); }
+.comparison-workspace .price-matrix thead th { background: #f5f8f8; }
+.comparison-workspace .price-matrix thead button { color: #27424b; }
+.comparison-workspace .matrix-header-price { color: #177968; }
+.comparison-workspace .matrix-price { display: grid; grid-template-columns: auto 14px; gap: 2px 6px; align-items: center; padding: 10px 11px; min-width: 135px; width: 100%; text-align: left; }
+.comparison-workspace .matrix-price small { position: static; grid-column: 1 / -1; font-size: 9px; margin-top: 2px; text-align: left; }
+.comparison-workspace .matrix-price.best-price { background: #e2f3ea; border-color: #91bfa7; color: #196d51; }
+.comparison-workspace .matrix-price.unknown { background: #f6f8fa; }
+.comparison-workspace .product-tabs button.active { background: #eaf5f1; border-color: #9cc4b8; color: #176b57; }
+.comparison-workspace .product-comparison { padding: 0 24px 20px; }
+.comparison-workspace .product-comparison > .section-heading { padding: 22px 0 14px; }
+.comparison-workspace .product-comparison > .section-heading h3 { font-size: 19px; }
+.comparison-workspace .comparison-section-label { color: #376a5e; margin-bottom: 10px; }
+.cmp-offers { list-style: none; padding: 0; margin: 0 0 16px; }
+.cmp-offer { display: grid; grid-template-columns: minmax(0,1fr) 175px 112px; gap: 15px; align-items: center; padding: 16px 0; border-top: 1px solid #e4ebed; }
+.cmp-offer-product > strong { display: block; font-size: 13px; color: #244048; }
+.cmp-offer-product > p { margin: 4px 0 6px; font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.cmp-offer-product > small { display: block; font-size: 10px; color: var(--muted); margin-top: 5px; }
+.cmp-offer-price { text-align: right; }
+.cmp-offer-price > strong { display: block; font-size: 20px; color: var(--cmp-navy); font-variant-numeric: tabular-nums; }
+.cmp-offer-price > small { display: block; font-size: 10px; color: var(--muted); }
+.cmp-unit-price { display: inline-block; margin-top: 7px; color: #1c7869; font-size: 12px; font-weight: 650; }
+.cmp-offer-actions { display: grid; justify-items: end; }
+.cmp-offer-actions .text-button { font-size: 11px; min-height: 36px; gap: 4px; }
+.cmp-pack-section { border-top: 1px solid #dae7e4; padding-top: 23px; margin-top: 25px; }
+.cmp-subheading { display: flex; align-items: flex-start; gap: 11px; margin-bottom: 18px; }
+.cmp-section-icon { width: 38px; height: 38px; background: #edf7f3; border-radius: 10px; color: #337c6b; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cmp-subheading h3 { font-size: 17px; margin-bottom: 4px; }
+.cmp-subheading p { font-size: 12px; color: var(--muted); margin: 0; max-width: 650px; }
+.cmp-unit-group { border: 1px solid #d2e5dd; border-radius: 11px; margin-bottom: 15px; overflow: hidden; }
+.cmp-unit-summary { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; padding: 16px; background: #f0f8f4; }
+.cmp-unit-summary > div:first-child > strong { font-size: 12px; color: #376b5b; }
+.cmp-unit-summary p { font-size: 11px; color: #647b71; margin: 5px 0 0; max-width: 520px; }
+.cmp-unit-summary > div:last-child { text-align: right; flex-shrink: 0; }
+.cmp-unit-summary small { display: block; font-size: 10px; color: #56776a; }
+.cmp-unit-summary > div:last-child > strong { display: block; font-size: 19px; color: #14694c; }
+.cmp-unit-options { list-style: none; margin: 0; padding: 0; }
+.cmp-unit-options > li { display: grid; grid-template-columns: minmax(0,1fr) auto 112px; align-items: center; gap: 18px; padding: 15px 16px; border-top: 1px solid #e0ece6; }
+.cmp-unit-options > li.is-best { background: #fbfefc; }
+.cmp-unit-options > li > div:first-child > strong { display: block; font-size: 12px; overflow-wrap: anywhere; }
+.cmp-unit-options > li > div:first-child > span { display: block; font-size: 11px; color: var(--muted); margin-top: 4px; }
+.cmp-unit-options > li > div:first-child > small { display: block; font-size: 10px; color: var(--muted); margin-top: 4px; }
+.cmp-unit-value { text-align: right; }
+.cmp-unit-value > strong { font-size: 16px; display: block; color: #315e50; font-variant-numeric: tabular-nums; margin-bottom: 4px; }
+.cmp-unit-value > .badge { font-size: 9px; }
+.comparison-workspace .comparison-footnote { font-size: 11px; }
+@media (max-width: 1200px) {
+  .cmp-basket-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .cmp-basket-card h3 { min-height: 0; }
+  .cmp-metrics > div { padding: 14px 12px; gap: 10px; }
+  .cmp-offer { grid-template-columns: minmax(0,1fr) 150px; }
+  .cmp-offer-actions { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 15px; }
+  .cmp-unit-options > li { grid-template-columns: minmax(0,1fr) auto; gap: 8px 18px; }
+}
+@media (max-width: 760px) {
+  .cmp-page-actions { margin-bottom: 14px; gap: 8px; }
+  .cmp-page-actions .back-link { font-size: 12px; }
+  .cmp-page-actions .button { font-size: 11px; padding: 8px 10px; gap: 5px; }
+  .cmp-hero { padding: 22px; grid-template-columns: minmax(0,1fr); gap: 22px; border-radius: 13px; }
+  .cmp-hero h1 { max-width: none; font-size: 29px; }
+  .cmp-hero > div > p { font-size: 12px; margin-bottom: 12px; }
+  .cmp-hero-result { border-left: 0; border-top: 1px solid #42606b; padding: 18px 0 0; }
+  .cmp-hero-result > strong { font-size: 33px; }
+  .cmp-hero .cmp-hero-result > p { margin-bottom: 2px; }
+  .cmp-metrics { gap: 8px; margin: 12px 0 20px; }
+  .cmp-metrics > div { display: block; padding: 13px 10px; }
+  .cmp-metric-icon { width: 29px; height: 29px; border-radius: 8px; margin-bottom: 8px; }
+  .cmp-metric-icon svg { width: 16px; height: 16px; }
+  .cmp-metrics strong { font-size: 21px; }
+  .cmp-metrics > div > div > span { font-size: 10px; line-height: 1.4; margin-top: 5px; }
+  .comparison-workspace .section-heading { padding: 18px 16px; flex-wrap: wrap; }
+  .comparison-workspace .section-heading h2 { font-size: 19px; }
+  .comparison-workspace .section-heading p { font-size: 12px; }
+  .cmp-basket-grid { padding: 0 16px 16px; grid-template-columns: minmax(0,1fr); gap: 10px; }
+  .cmp-basket-card { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 0 10px; padding: 14px; }
+  .cmp-basket-card-top { grid-column: 1 / -1; margin-bottom: 11px; }
+  .cmp-basket-card h3 { font-size: 14px; margin-bottom: 4px; }
+  .cmp-basket-card > p { grid-column: 1; margin-bottom: 0; }
+  .cmp-basket-cost { grid-column: 2; grid-row: 2 / 4; align-self: center; margin: 0; font-size: 22px; text-align: right; }
+  .cmp-basket-card > small { grid-column: 1 / -1; min-height: 0; margin: 10px 0; }
+  .cmp-basket-card > .button { grid-column: 1 / -1; min-height: 44px; }
+  .cmp-cost-note { padding: 0 16px 17px; }
+  .cmp-basket-contents { margin: 0 16px 16px; padding: 13px; }
+  .cmp-basket-contents-heading { flex-wrap: wrap; gap: 8px; }
+  .cmp-basket-contents-heading h3 { font-size: 16px; }
+  .cmp-basket-contents > ul > li { grid-template-columns: 31px minmax(0,1fr); gap: 9px; }
+  .cmp-basket-product strong { font-size: 12px; }
+  .cmp-basket-product small { font-size: 10px; }
+  .cmp-basket-line-total { grid-column: 2; display: flex; align-items: center; gap: 10px; justify-content: space-between; text-align: left; }
+  .cmp-basket-line-total > strong { font-size: 16px; }
+  .cmp-basket-line-total .text-button { min-height: 44px; }
+  .cmp-basket-summary { flex-wrap: wrap; gap: 5px; }
+  .cmp-basket-summary > strong { font-size: 23px; }
+  .cmp-context-note { padding: 13px; }
+  .comparison-workspace .product-comparison { padding: 0 16px 18px; }
+  .comparison-workspace .product-comparison > .section-heading { padding: 20px 0 12px; }
+  .comparison-workspace .comparison-section-label { font-size: 11px; gap: 6px; }
+  .comparison-workspace .comparison-section-label > strong { flex: 1; }
+  .cmp-offer { grid-template-columns: minmax(0,1fr); gap: 10px; padding: 16px 0; }
+  .cmp-offer-price { text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 8px; }
+  .cmp-offer-price > strong { font-size: 20px; }
+  .cmp-offer-price > small { flex-basis: 100%; order: 3; }
+  .cmp-unit-price { margin: 0; }
+  .cmp-offer-actions { justify-content: flex-start; flex-wrap: wrap; gap: 0 20px; }
+  .cmp-offer-actions .text-button { min-height: 44px; }
+  .cmp-unit-summary { padding: 13px; flex-wrap: wrap; gap: 12px; }
+  .cmp-unit-summary > div:last-child { text-align: left; }
+  .cmp-unit-options > li { grid-template-columns: minmax(0,1fr); padding: 14px 13px; gap: 8px; }
+  .cmp-unit-value { text-align: left; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .cmp-unit-value > strong { margin: 0; }
+  .cmp-subheading h3 { font-size: 17px; }
+  .cmp-subheading p { font-size: 11px; }
+  .cmp-section-icon { width: 32px; height: 32px; border-radius: 8px; }
+}
+@media (max-width: 375px) {
+  .cmp-hero { padding: 19px; }
+  .cmp-hero h1 { font-size: 27px; }
+  .cmp-metrics { gap: 6px; }
+  .cmp-metrics > div { padding: 11px 8px; }
+  .cmp-metrics strong { font-size: 19px; }
+  .cmp-basket-card { display: flex; gap: 0; }
+  .cmp-basket-cost { margin-top: 12px; }
+  .cmp-basket-card > .button { margin-top: 3px; }
+  .cmp-basket-card > small { margin-bottom: 10px; }
+  .comparison-workspace .section-heading, .comparison-workspace .product-comparison { padding-left: 13px; padding-right: 13px; }
+  .comparison-workspace .product-comparison > .section-heading { padding-left: 0; padding-right: 0; }
+  .cmp-basket-grid { padding-left: 13px; padding-right: 13px; }
+}

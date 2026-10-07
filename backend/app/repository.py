@@ -7,7 +7,7 @@ import uuid
 from .domain import assess_quote, money, normalize_text
 from .ingest import COMPANY_ID, dumps
 from .smart import (product_profile, match_profiles, price_basis, quote_order, price_range,
-                    line_analysis, pack_key)
+                    line_analysis, pack_key, normalized_unit_price, pack_alternative, unit_price_groups)
 
 
 class AppError(Exception):
@@ -180,7 +180,9 @@ def get_list(conn, list_id):
     result["lines"] = [{k: line[k] for k in ("id", "source_product_id", "source_product_name", "description", "quantity", "unit", "category_id")}
                        for line in conn.execute("SELECT l.*,p.name AS source_product_name FROM list_line l LEFT JOIN source_product p ON p.id=l.source_product_id WHERE l.company_id=? AND l.list_id=? ORDER BY l.created_at,l.id", (COMPANY_ID, list_id))]
     for line in result["lines"]:
-        line["price_summary"] = get_product(conn, line["source_product_id"], result["scenario_id"])["price_summary"] if line["source_product_id"] else None
+        product = get_product(conn, line["source_product_id"], result["scenario_id"]) if line["source_product_id"] else None
+        line["price_summary"] = product["price_summary"] if product else None
+        line["profile"] = product["profile"] if product else None
     return result
 
 
@@ -217,8 +219,9 @@ def quote_view(conn, row, line_id=None, reference=None, source_context=None, ref
     source_id = "monitor" if row["item_id"].startswith("monitor:") else "lidl"
     reference_profile = reference or product_profile(product["name"], product["raw_pack"], raw_category=product["raw_category"])
     offered_profile = product_profile(row["commercial_name"], row["raw_unit"], row["raw_brand"], row["raw_category"])
+    offer_catalog_profile = product_profile(quoted_catalog_name, raw_category=row["raw_category"])
     assessed_match = match_profiles(reference_profile, offered_profile,
-                                   source_context or product_profile(quoted_catalog_name, raw_category=row["raw_category"]))
+                                   source_context or offer_catalog_profile, offer_catalog=offer_catalog_profile)
     all_conflicts = list(dict.fromkeys([*assessed["conflicts"], *assessed_match["attribute_conflicts"]]))
     if all_conflicts:
         assessed_match.update(verdict="variant_conflict", verdict_label="Variantă diferită")
@@ -237,7 +240,8 @@ def quote_view(conn, row, line_id=None, reference=None, source_context=None, ref
             "raw_unit": row["raw_unit"], "raw_promo": row["raw_promo"], "price": money(row["price"]) if row["price"] else None,
             "source_priced_at": row["source_priced_at"], "retrieved_at": snapshot[0],
             "store": store, "data_mode": "offline_snapshot", **assessed, **assessed_match,
-            "price_basis": basis, "price_label": "Preț raportat"}
+            "price_basis": basis, "price_label": "Preț raportat",
+            "unit_price": normalized_unit_price(row["price"], offered_profile, basis) if row["valid"] else None}
 
 
 def item_context(conn, item_id):
@@ -270,14 +274,51 @@ def related_quotes(conn, item_id, scenario_id, line_id=None, available_rows=None
     return sorted(results, key=quote_order)
 
 
+def pack_alternative_quotes(conn, item_id, scenario_id, line_id=None, available_rows=None):
+    reference, context = item_context(conn, item_id)
+    if not all(reference.get(key) for key in ("kind", "brand", "pack")):
+        return []
+    rows = available_rows if available_rows is not None else conn.execute(
+        "SELECT * FROM observation WHERE valid=1 AND (scenario_id=? OR scenario_id IS NULL)", (scenario_id,)).fetchall()
+    results = []
+    catalog_names = {}
+    for row in rows:
+        if row["item_id"] == item_id:
+            continue
+        profile = product_profile(row["commercial_name"], row["raw_unit"], row["raw_brand"], row["raw_category"])
+        if pack_alternative(reference, profile, context) is None:
+            continue
+        raw_record = json.loads(row["raw_record"])
+        quoted_catalog_name = raw_record.get("Catprod", {}).get("Name")
+        if not quoted_catalog_name:
+            if row["item_id"] not in catalog_names:
+                catalog_names[row["item_id"]] = conn.execute("SELECT name FROM source_product WHERE id=?", (row["item_id"],)).fetchone()[0]
+            quoted_catalog_name = catalog_names[row["item_id"]]
+        offer_catalog = product_profile(quoted_catalog_name, raw_category=row["raw_category"])
+        alternative = pack_alternative(reference, profile, context, offer_catalog)
+        if alternative is None:
+            continue
+        quote = quote_view(conn, row, line_id, reference, context, item_id)
+        # Contradicțiile sursei rămân blocante, chiar dacă profilul comercial pare coerent.
+        if quote["conflicts"]:
+            continue
+        quote["alternative"] = alternative
+        results.append(quote)
+    return sorted(results, key=lambda quote: (Decimal(quote["unit_price"]["amount"]) if quote.get("unit_price") else Decimal("Infinity"), *quote_order(quote)))
+
+
 def get_offers(conn, item_id, scenario_id):
     require_scenario(conn, scenario_id)
     item = get_product(conn, item_id, scenario_id)
     rows = conn.execute("SELECT * FROM observation WHERE item_id=? AND (scenario_id=? OR scenario_id IS NULL) ORDER BY valid DESC,store_id,id", (item_id, scenario_id)).fetchall()
     quotes = sorted([quote_view(conn, row) for row in rows], key=quote_order)
+    available_rows = conn.execute("SELECT * FROM observation WHERE valid=1 AND (scenario_id=? OR scenario_id IS NULL)", (scenario_id,)).fetchall()
+    related = related_quotes(conn, item_id, scenario_id, available_rows=available_rows)
+    alternatives = pack_alternative_quotes(conn, item_id, scenario_id, available_rows=available_rows)
     return {"item": item, "scenario": scenario_view(conn, require_scenario(conn, scenario_id)),
             "quotes": quotes, "price_summary": item["price_summary"],
-            "related_offers": related_quotes(conn, item_id, scenario_id),
+            "related_offers": related, "pack_alternatives": alternatives,
+            "unit_price_groups": unit_price_groups([*quotes, *related, *alternatives]),
             "warnings": ["Prețuri din fișiere salvate. Verifică stocul, condițiile și prețul final înainte de cumpărare."]}
 
 
@@ -287,7 +328,13 @@ def get_evidence(conn, observation_id, reference_item_id=None):
         raise AppError("EVIDENCE_NOT_FOUND", "Dovada nu există.", 404)
     snap = conn.execute("SELECT * FROM snapshot WHERE id=?", (row["snapshot_id"],)).fetchone()
     reference, context = item_context(conn, reference_item_id) if reference_item_id else (None, None)
-    return quote_view(conn, row, reference=reference, source_context=context, reference_item_id=reference_item_id) | {
+    quote = quote_view(conn, row, reference=reference, source_context=context, reference_item_id=reference_item_id)
+    if reference:
+        alternative = pack_alternative(reference, quote["profile"], context,
+                                       product_profile(quote["source_catalog_name"], raw_category=row["raw_category"]))
+        if alternative and not quote["conflicts"]:
+            quote["alternative"] = alternative
+    return quote | {
                                     "evaluation_scope": "selected_product" if reference_item_id else "source_product",
                                     "snapshot": snapshot_view(snap), "source_catalog_id": row["item_id"].split(":", 1)[1],
                                     "source_product_id": row["source_product_id"], "raw_category": row["raw_category"],
@@ -349,10 +396,12 @@ def compare_list(conn, list_id, expected_revision, scenario_id):
             options = [quote_view(conn, row, line["id"], reference, context)
                        for row in rows_by_item.get(item_id, []) if row["valid"]]
             options.extend(related_quotes(conn, item_id, scenario_id, line["id"], available_rows))
+            alternatives = pack_alternative_quotes(conn, item_id, scenario_id, line["id"], available_rows)
         else:
             reference = product_profile(line["description"])
             options = []
-        analysis = line_analysis(line, options, reference)
+            alternatives = []
+        analysis = line_analysis(line, options, reference, alternatives)
         for quote in analysis["comparable_options"]:
             quote["estimated_item_total"] = money(Decimal(quote["price"]["amount"]) * Decimal(line["quantity"]))
         analyses.append(analysis)
@@ -388,7 +437,7 @@ def compare_list(conn, list_id, expected_revision, scenario_id):
                       "spread": money(Decimal(estimated[-1]["estimated_total"]["amount"]) - Decimal(estimated[0]["estimated_total"]["amount"])) if len(estimated) > 1 else None}
     result = {"id": "comparison_" + uuid.uuid4().hex, "data_mode": "offline_snapshot", "network_mode": "offline",
               "list_id": list_id, "list_revision": expected_revision, "scenario": scenario,
-              "source_snapshot_ids": sorted(snapshot_ids | {row["snapshot_id"] for row in available_rows if any(quote["observation_id"] == row["id"] for analysis in analyses for quote in analysis["options"])}), "algorithm_version": "attributes-explainable-2",
+              "source_snapshot_ids": sorted(snapshot_ids | {row["snapshot_id"] for row in available_rows if any(quote["observation_id"] == row["id"] for analysis in analyses for quote in [*analysis["options"], *analysis["pack_alternatives"]])}), "algorithm_version": "attributes-and-unit-prices-3",
               "currency": "RON", "source_quote_sums": quote_sums,
               "line_comparisons": analyses, "estimated_baskets": estimated, "incomplete_estimates": incomplete,
               "estimated_range": estimate_range, "estimated_savings": None,

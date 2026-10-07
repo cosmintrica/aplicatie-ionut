@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowUpRight, Plus, Search } from 'lucide-react';
+import { ArrowUpRight, Plus, Search, X } from 'lucide-react';
 import { categoryOptions, count, errorText, money, request, type CatalogItem, type CatalogResponse, type Category, type Source } from './api';
 import { CategoryIcon, CategoryTag, EmptyState, ErrorNotice, Loading, SearchField } from './components';
+import { ProductFacts } from './ProductFacts';
 
 export function ProductCard({ item, categories, sources, onSelect }: { item: CatalogItem; categories: Category[]; sources: Source[]; onSelect: (item: CatalogItem) => void }) {
   const category = categories.find((value) => value.id === item.category_id);
@@ -10,7 +11,7 @@ export function ProductCard({ item, categories, sources, onSelect }: { item: Cat
   const offers = summary?.offer_count ?? item.quote_count;
   return <article className="product-row">
     <span className="product-icon"><CategoryIcon name={category?.name ?? item.name} size={20} /></span>
-    <div className="product-row-info"><button className="product-name" onClick={() => onSelect(item)}>{item.name}</button><div className="product-secondary"><CategoryTag categoryId={item.category_id} categories={categories} /><span>{item.raw_pack || sources.find((value) => value.id === item.source_id)?.name || item.source_id}</span></div></div>
+    <div className="product-row-info"><button className="product-name" onClick={() => onSelect(item)}>{item.name}</button><div className="product-secondary"><CategoryTag categoryId={item.category_id} categories={categories} /><span>{sources.find((value) => value.id === item.source_id)?.name || item.source_id}</span></div><ProductFacts profile={item.profile} /></div>
     <div className="product-row-price">{price ? <><small>Minim raportat</small><strong>{money(price)}</strong><span>{offers} {offers === 1 ? 'preț salvat' : 'prețuri salvate'}</span></> : <><strong className="no-price">Fără preț</strong><span>În datele acestei zone</span></>}</div>
     <button className="icon-button row-add" type="button" aria-label={`Vezi și adaugă ${item.name}`} onClick={() => onSelect(item)}><Plus size={20} /></button>
   </article>;
@@ -38,8 +39,8 @@ export function Catalog({ categories, sources, scenarioId, onSelect, initialCate
   useEffect(() => {
     const controller = new AbortController();
     const current = ++generation.current;
+    setLoading(true); setError('');
     const timer = setTimeout(() => {
-      setLoading(true); setError('');
       const value = new URLSearchParams({ q: query, scenario: scenarioId, limit: '30', availability: pricedOnly ? 'priced' : 'all', sort });
       if (category) value.set('category', category);
       if (source) value.set('source', source);
@@ -52,13 +53,16 @@ export function Catalog({ categories, sources, scenarioId, onSelect, initialCate
     const current = generation.current;
     setMoreLoading(true); setError('');
     try { const next = await request<CatalogResponse>(`/catalog?${params(data.next_cursor)}`); if (current === generation.current) setData((previous) => previous ? { ...next, items: [...previous.items, ...next.items] } : next) }
-    catch (reason) { setError(errorText(reason)) } finally { setMoreLoading(false) }
+    catch (reason) { if (current === generation.current) setError(errorText(reason)) } finally { setMoreLoading(false) }
   }
+  function clearFilters() { setQuery(''); setCategory(''); setSource(''); setPricedOnly(true); setSort('recommended') }
   return <>
-    <header className="page-heading"><div><h1>Catalog de produse</h1><p>Caută produsul, verifică prețurile și adaugă-l în lista de cumpărături.</p></div></header>
+    <header className="page-heading"><div><span className="eyebrow">DESCOPERĂ ȘI COMPARĂ</span><h1>Găsește produsul potrivit.</h1><p>Marca, varianta și ambalajul la vedere, înainte de a alege un preț.</p></div></header>
+    <div className="category-shortcuts" role="region" tabIndex={0} aria-label="Categorii rapide, derulabile pe telefon">{categories.filter((value) => !value.parent_id && value.name !== 'De clasificat').map((value) => <button key={value.id} className={`category-shortcut ${category === value.id ? 'selected' : ''}`} aria-pressed={category === value.id} onClick={() => setCategory(category === value.id ? '' : value.id)}><CategoryIcon name={value.name} size={21} /><span>{value.name}</span></button>)}</div>
     <section className="panel catalog-panel" aria-labelledby="catalog-results-title">
       <div className="catalog-toolbar"><SearchField id="catalog-search" value={query} onChange={setQuery} label="Caută în catalog" placeholder="Produs, marcă, gramaj..." /><div className="field"><label htmlFor="catalog-category">Categorie</label><select id="catalog-category" value={category} onChange={(event) => setCategory(event.target.value)}><option value="">Toate categoriile</option>{categoryOptions(categories).map(({ category: value, label }) => <option key={value.id} value={value.id}>{label}</option>)}</select></div><div className="field"><label htmlFor="catalog-source">Sursă</label><select id="catalog-source" value={source} onChange={(event) => setSource(event.target.value)}><option value="">Toate sursele</option>{sources.map((value) => <option key={value.id} value={value.id}>{value.name}</option>)}</select></div></div>
       <div className="result-toolbar"><h2 id="catalog-results-title">{data && !loading ? `${count(data.total)} produse` : 'Produse'}</h2><label className="checkbox-label"><input type="checkbox" checked={pricedOnly} onChange={(event) => setPricedOnly(event.target.checked)} />Doar produse cu preț</label><div className="sort-picker"><label htmlFor="catalog-sort">Ordine</label><select id="catalog-sort" value={sort} onChange={(event) => setSort(event.target.value)}><option value="recommended">Relevanță</option><option value="price">Preț crescător</option><option value="name">Denumire</option></select></div></div>
+      {query || category || source || !pricedOnly || sort !== 'recommended' ? <div className="active-filters"><span>Filtre active{category ? ` · ${categories.find((value) => value.id === category)?.name}` : ''}{source ? ` · ${sources.find((value) => value.id === source)?.name}` : ''}</span><button className="text-button" onClick={clearFilters}><X size={15} />Resetează filtrele</button></div> : null}
       {error ? <ErrorNotice message={error} onRetry={() => setRetry((value) => value + 1)} /> : null}
       {loading ? <Loading label="Căutăm produse..." /> : data?.items.length ? <><div className="product-rows">{data.items.map((item) => <ProductCard key={item.id} item={item} categories={categories} sources={sources} onSelect={onSelect} />)}</div>{data.next_cursor ? <div className="load-more"><button className="button secondary" onClick={loadMore} disabled={moreLoading}>{moreLoading ? 'Se încarcă...' : 'Arată mai multe produse'}<ArrowUpRight size={16} /></button></div> : null}</> : !error ? <EmptyState icon={Search} title={pricedOnly ? 'Nu avem prețuri pentru această căutare' : 'Nu am găsit produsul'}><p>{pricedOnly ? 'Debifează „Doar produse cu preț” pentru a căuta în catalogul complet, sau încearcă o altă marcă.' : 'Încearcă o altă denumire. Poți păstra cerința ca text în lista ta.'}</p></EmptyState> : null}
     </section>

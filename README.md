@@ -6,6 +6,8 @@
 
 Aplicație locală pentru explorarea catalogului, liste de cumpărături persistente și comparații explicabile din probele salvate. Etapele E0 + E1a din [planul complet](docs/PLAN_IMPLEMENTARE.md) sunt implementate. [Revizia interfeței și motorului](docs/IMPLEMENTARE_COMPARATII.md) adaugă prețuri direct în catalog și liste, comparații pe caracteristici și estimări pentru coșuri complete. [Auditul comparațiilor](docs/REVIZIE_COMPARATII.md) documentează regulile pe probe reale; [raportul primei livrări](docs/IMPLEMENTARE_E1.md) păstrează verificările versiunii inițiale.
 
+**Revizia din 7 octombrie:** [interfață și corelare îmbunătățite](docs/REVIZIE_UX_CORELARE.md), schimbarea produselor din listă, alternative de ambalaj cu preț/kg/l, conținutul coșurilor și export CSV explicabil.
+
 Planul include [specificația produsului](docs/SPECIFICATIE_PRODUS.md), [motorul de corectitudine](docs/MOTOR_CORECTITUDINE.md), [arhitectura](docs/DECIZII_ARHITECTURA.md) și [investigația Compari.ro](docs/CERCETARE_COMPARI.md). [Cererea inițială](CERERE_INITIALA.md), [cerințele extinse](docs/CERINTE_EXTINSE.md) și [raportul probelor](RAPORT_TESTARE.md) păstrează contextul.
 
 ## Starea proiectului
@@ -13,14 +15,14 @@ Planul include [specificația produsului](docs/SPECIFICATIE_PRODUS.md), [motorul
 | Disponibil în cod | Planificat, încă neimplementat |
 |---|---|
 | Catalog, prețuri salvate și filtre | Colectare continuă și extinderea surselor |
-| Liste persistente și cantități | Import facturi, PDF și OCR |
-| Asociere explicată pe caracteristici | Achiziții confirmate și evaluarea furnizorilor |
-| Comparații și coșuri estimate complete | Login, conturi și acces pentru mai multe firme |
+| Liste persistente, cantități și schimbarea produsului ales | Import facturi, PDF și OCR |
+| Corelare pe caracteristici, utilizare și ambalaj; alternative cu preț/kg/l | Achiziții confirmate și evaluarea furnizorilor |
+| Coșuri complete detaliate, comparații și export CSV | Login, conturi și acces pentru mai multe firme |
 | Mod local, sesiune și protecție CSRF | Emailuri de cont, invitații, alerte și notificări |
 
 Planul complet include [conturile și emailurile](docs/ACCES_SI_EMAIL.md): verificarea adresei, recuperarea accesului, onboarding, invitații, roluri, sesiuni, MFA, emailuri tranzacționale, preferințe și livrare fiabilă. Autentificarea și izolarea între firme sunt condiții ale lansării online din E4. Implementarea locală actuală nu cere un cont și nu trimite emailuri.
 
-![Comparația prețurilor în aplicație](docs/images/comparatie-desktop.jpg)
+![Comparația prețurilor în aplicație](docs/images/comparatie-desktop-2026-10-07.png)
 
 ## Pornire locală
 
@@ -46,7 +48,9 @@ Datele aplicației sunt în `var`, separat de snapshoturile originale. Repetarea
 
 Catalogul pornește cu filtrul „Cu preț”, aplicat înainte de paginare. Poți căuta și în toate înregistrările. Prețul minim, intervalul și numărul ofertelor sunt vizibile direct. Valorile din catalog sunt prețuri raportate; comparația verifică separat dacă varianta și baza prețului corespund.
 
-Motorul extrage marca, tipul produsului, gramajul, procentul de grăsime, forma și varianta atunci când sunt declarate. „Aceleași caracteristici” indică o corespondență între atributele disponibile. Variantele diferite și detaliile lipsă apar separat, cu motive. Diferențele între prețuri folosesc baze compatibile; estimările pentru cantitate folosesc numai prețurile cu bază explicită sau echivalentă pentru ambalajul de 1 l.
+Motorul extrage marca, tipul produsului, gramajul, multipack-ul, procentul de grăsime, forma, varianta și utilizarea atunci când sunt declarate. Produsele de curățenie pentru vase, WC și țevi sunt separate; forma cafelei și tratamentul laptelui cer verificare când referința este incompletă. „Aceleași caracteristici” indică o corespondență între atributele disponibile. Variantele diferite și detaliile lipsă apar separat, cu motive. Diferențele între prețuri folosesc baze compatibile; estimările pentru cantitate folosesc numai prețurile cu bază explicită sau echivalentă pentru ambalajul de 1 l.
+
+Alternativele cu alt ambalaj sunt prezentate separat, cu preț/kg sau litru numai când baza este explicită. Alegerea lor nu este automată. Cerința inițială rămâne vizibilă alături de produsul efectiv ales; CSV-ul include acest context, sursa și data.
 
 Clasamentul coșurilor estimate cuprinde doar magazinele care acoperă întreaga listă. Un magazin cu poziții lipsă nu primește un total comparabil. Estimările nu includ condiții comerciale, stoc sau costuri suplimentare neverificate; diferența între oferte nu reprezintă economie deja realizată. [Contractul motorului](backend/SMART_CONTRACT.md) descrie câmpurile API și compatibilitatea cu prima versiune.
 
@@ -60,7 +64,7 @@ Facturile, confirmarea achizițiilor, OCR-ul, recomandările de furnizori și ex
 .\scripts\Check-Local.ps1
 ```
 
-Acest script verifică parserul Monitorului, regresiile aplicației și buildul interfeței. Pentru probele originale, fără instalarea aplicației:
+Acest script verifică parserul Monitorului, regresiile aplicației și buildul interfeței. Revizia din 7 octombrie a trecut 112 teste Python, 32 verificări PowerShell și buildul TypeScript/Vite. [Raportul reviziei](docs/REVIZIE_UX_CORELARE.md) descrie și verificările browser la 320/390 px. Pentru probele originale, fără instalarea aplicației:
 
 ```powershell
 .\scripts\Test-MonitorPrices.ps1 -Offline
