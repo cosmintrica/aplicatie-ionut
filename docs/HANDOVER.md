@@ -2,6 +2,8 @@
 
 Stare consemnată la 7 octombrie 2026. Repository: [cosmintrica/aplicatie-ionut](https://github.com/cosmintrica/aplicatie-ionut). Un agent nou nu primește istoricul chatului automat; informațiile necesare continuării sunt în repository. Citește [AGENTS.md](../AGENTS.md) la preluare și verifică sursele, în special dacă au apărut commituri noi.
 
+Ultima livrare de aplicație documentată este [4ad818b](https://github.com/cosmintrica/aplicatie-ionut/commit/4ad818b49059bf8a914e56f9442c4bec0c25bf93), publicată pe `main`: interfață, corelare și alternative de ambalaj. [Verificarea GitHub pe clonă curată](https://github.com/cosmintrica/aplicatie-ionut/actions/runs/37555766904) este încheiată cu succes. Actualizarea prezentului handover completează dovezile livrării; nu schimbă funcțiile aplicației.
+
 ## 1. Obiectivul produsului
 
 Firmele mici introduc ce trebuie să cumpere sau o achiziție confirmată. Aplicația compară ofertele disponibile pentru produse compatibile, cantități și condiții explicite; arată costurile, diferențele, sursa și data. Destinația include import de facturi/OCR, istoric, oportunități explicabile și recomandări de furnizori. Taxonomia cuprinde de la început alimente, curățenie, consumabile și electronice. Acoperirea tuturor prețurilor din România nu este o promisiune demonstrată.
@@ -15,8 +17,8 @@ Cerințele sunt în [CERERE_INITIALA.md](../CERERE_INITIALA.md) și [CERINTE_EXT
 | Runtime | React/TypeScript/Vite, API FastAPI, SQLite; acces local pe loopback |
 | Date | Import offline Monitor/Lidl din probele salvate la 5 octombrie 2026, manifest cu 11 fișiere și SHA-256 |
 | Catalog | Căutare, categorii, prețuri raportate și filtre înainte de paginare; 107.226 înregistrări cu nume, dintre care 2.448 cu preț la baseline |
-| Liste | Liste persistente, cantități, text liber, scenariu, redenumire și profilul firmei locale |
-| Comparații | Atribute și motive, variante separate, alternative, matrice produs-magazin, coșuri estimate complete; incomplet separat |
+| Liste | Liste persistente, cantități, text liber, schimbarea produsului cu păstrarea cerinței inițiale, filtru pentru poziții fără produs/preț, scenariu și redenumire |
+| Comparații | Atribute și motive, variante separate, alternative de ambalaj cu preț/kg/l, matrice produs-magazin, coșuri complete detaliate și export CSV; incomplet separat |
 | Zone | Slatina 5 km și București 1 km, plus lista națională Lidl distinctă; fără extindere geografică implicită |
 | Protecție locală | Host/origin loopback, sesiune și CSRF; aceasta nu este autentificare pentru mai multe firme |
 | Livrare | Cod public, lockuri, scripturi Windows, teste, documente și capturi; GitHub Actions fără deploy |
@@ -24,6 +26,19 @@ Cerințele sunt în [CERERE_INITIALA.md](../CERERE_INITIALA.md) și [CERINTE_EXT
 E0/E1a sunt livrate ca versiune locală utilă, cu [revizia UI/corelare din 7 octombrie](REVIZIE_UX_CORELARE.md). Aceasta adaugă alternative pe kg/l, schimbarea produsului ales, detalierea coșului, export CSV și gardele pentru utilizare/variantă/formă. Motorul curent are `algorithm_version=attributes-and-unit-prices-3`. Aceasta nu certifică toate țintele viitoare de matching, performanță, accesibilitate sau producție. Codul și [SMART_CONTRACT.md](../backend/SMART_CONTRACT.md) descriu capabilitățile existente: „Aceleași caracteristici” este candidat pe atribute, nu identitate GTIN confirmată. `payable_total`, `savings` și `estimated_savings` nu se completează din estimările actuale.
 
 Nu sunt implementate: achiziții confirmate, import manual/CSV/UBL/PDF, OCR, economie realizată, recomandări ferme pe istoric, colectare continuă, login/OIDC, membership pentru mai multe firme, emailuri și producție. Nicio integrare Supabase sau Compari.ro nu este configurată prin publicarea codului. Investigația Compari documentează feeduri și identificatori, nu oferă acces la catalogul lor.
+
+### Puncte de intrare pentru continuare
+
+| Ce modifici | Fișiere de pornire |
+|---|---|
+| Extracție, verdict, ambalaje și preț pe unitate | [smart.py](../backend/app/smart.py), [regresii de corelare](../backend/tests/test_matching_improvements.py) |
+| Catalog, oferte, comparații și proveniență | [repository.py](../backend/app/repository.py), [contractul API](../backend/SMART_CONTRACT.md) |
+| Lista, cantitățile și schimbarea produsului | [App.tsx](../web/src/App.tsx), [Shopping.tsx](../web/src/Shopping.tsx) |
+| Explorarea produsului și alternativele sale | [Catalog.tsx](../web/src/Catalog.tsx), [Details.tsx](../web/src/Details.tsx), [ProductFacts.tsx](../web/src/ProductFacts.tsx) |
+| Matrice, conținutul coșului și CSV | [Comparison.tsx](../web/src/Comparison.tsx), [tipurile frontend](../web/src/api.ts) |
+| Aspect desktop/mobil | [styles.css](../web/src/styles.css), [workspace.css](../web/src/workspace.css), [comparison.css](../web/src/comparison.css) |
+
+La următoarele schimbări păstrează distincția dintre `description` (cerința inițială), `source_product_name` și `reference_profile` (produsul evaluat). `pack_alternatives` nu se introduc automat în coș; `unit_price.label` se calculează în backend. Matricea folosește `comparable_options` pentru eligibilitate, inclusiv la cantități fracționare, iar ofertele naționale Lidl fără magazin rămân separate de magazinele geografice. Anularea cererilor depășite și blocarea comparației pentru cantități nesalvate sunt comportamente verificate, nu detalii de eliminat la refactorizare.
 
 ## 3. Lectură și autoritate
 
@@ -59,7 +74,9 @@ Configurația actuală folosește `APP_MODE=local`, implicit, și opțional `APP
 
 ## 5. Verificări și baseline
 
-La publicarea din 6 octombrie, [GitHub Actions](https://github.com/cosmintrica/aplicatie-ionut/actions/runs/37392153976) a pornit un checkout nou, a instalat dependențele, a construit UI și a importat probele. Rezultat: 75 teste Python, 32 verificări PowerShell și build TypeScript/Vite trecute. Există un avertisment Starlette/TestClient privind httpx, fără eșecuri. Revizia din 7 octombrie a trecut local 112 teste Python (37 regresii noi de corelare), 32 verificări PowerShell și build TypeScript/Vite. Testarea browser a folosit Chromium/Playwright din runtime-ul agentului, cu bază izolată; acestea nu au fost adăugate ca dependențe sau script npm al proiectului. Raportul este în [REVIZIE_UX_CORELARE.md](REVIZIE_UX_CORELARE.md).
+Baseline curent, pentru commitul `4ad818b`: 112 teste Python (37 regresii noi de corelare), 32 verificări PowerShell și build TypeScript/Vite trecute local. [GitHub Actions](https://github.com/cosmintrica/aplicatie-ionut/actions/runs/37555766904) a confirmat și instalarea dependențelor fixate, importul probelor și verificările pe un checkout nou. Există un avertisment Starlette/TestClient privind httpx, fără eșecuri. Baseline-ul anterior de 75 teste Python, din 6 octombrie, rămâne [istoric](https://github.com/cosmintrica/aplicatie-ionut/actions/runs/37392153976).
+
+Testarea browser a folosit Chromium/Playwright din runtime-ul agentului, cu bază izolată: layout la 320/390 px, persistență, cantități nesalvate și fracționare, substituție 250 g cu 500 g, răspunsuri întârziate, dovezi, focus și CSV. Nu există încă o suită browser instalată în repository; pentru reproducere urmează scenariile din [REVIZIE_UX_CORELARE.md](REVIZIE_UX_CORELARE.md). Raportul consemnează și problema locală de permisiuni pytest, rezolvată prin directoare temporare noi, fără schimbarea codului.
 
 `scripts/Check-Local.ps1` rulează parserul, testele backend/regresii și buildul. Setupul trebuie să existe, iar Node/npm să fie în PATH. Pentru documentație, verifică linkurile, comenzile și consistența; baseline-ul de mai sus este o execuție istorică, nu o afirmație că fiecare checkout a fost testat deja.
 
@@ -72,6 +89,8 @@ Parcurs browser pentru o schimbare de aplicație: găsește un produs cu preț, 
 - Numai checkoutul inițial al autorului păstrează originalele și are trei diferențe față de commit: `probe-data/lidl-parsed-2026-10-05.json`, `probe-data/summary.json`, `fixtures/snapshot-manifest.json`. Nu sunt modificări de prețuri; nu le curăța prin reset și nu le publica prin `git add -A` din acel arbore. Pe o clonă normală aceste diferențe nu există.
 - `scripts/prepare-publication.py` pregătește o copie nouă în `tmp`; nu publică și nu modifică originalele. Datele de lucru, facturile reale, listele firmei și secretele rămân locale. Repository public nu înseamnă aplicație găzduită online.
 - `scripts/Test-MonitorPrices.ps1`, inclusiv cu `-Offline`, nu este verificare fără efecte. Păstrează baseline-ul; colectările noi folosesc locație și manifest proprii.
+
+La încheierea reviziei din 7 octombrie, aplicația a fost repornită pe baza implicită `var/app.sqlite3`. Amprenta conținutului tabelelor `company`, `shopping_list` și `list_line` a fost identică înainte și după repornire. Bazele și listele de test au rămas în `tmp`, excluse din publicare. Un coleg care clonează primește sursele și probele publice, nu listele firmei autorului.
 
 ## 7. Următorul livrabil: E1b, achiziție manuală confirmată
 

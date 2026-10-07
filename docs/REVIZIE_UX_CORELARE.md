@@ -24,6 +24,8 @@ Noile câmpuri sunt aditive și sunt documentate în [contractul motorului](../b
 
 ## Verificare
 
+Livrare publicată în [commitul 4ad818b](https://github.com/cosmintrica/aplicatie-ionut/commit/4ad818b49059bf8a914e56f9442c4bec0c25bf93). [GitHub Actions](https://github.com/cosmintrica/aplicatie-ionut/actions/runs/37555766904) a încheiat cu succes instalarea, importul probelor și verificările pe clonă curată. Rezultatele de mai jos aparțin acestei revizii de cod.
+
 `scripts/Check-Local.ps1`: 112 teste Python trecute (37 regresii noi), 32 verificări PowerShell trecute și build TypeScript/Vite reușit. Avertismentul Starlette/TestClient privind httpx este preexistent. Prima execuție a întâlnit permisiuni incompatibile pe directorul temporar pytest Windows; rerularea cu `PYTEST_ADDOPTS` către directoare noi din `tmp` a trecut integral. Nu s-au modificat permisiunile globale sau comportamentul aplicației pentru a rezolva acest impediment local.
 
 Browser: Chromium cu Playwright din runtime-ul agentului, pe loopback. Instrumentul browser integrat nu a reușit inițializarea; verificările au folosit un browser separat. Playwright nu a fost adăugat în dependențele aplicației. Baza izolată prin `APP_DB_PATH` conține liste de test și date publice, fără modificarea listelor firmei din `var/app.sqlite3`.
@@ -39,6 +41,8 @@ Verificate efectiv:
 - Înlocuirea 250 g cu 500 g păstrează o singură linie și cerința inițială; matricea, profilul și CSV-ul folosesc produsul nou. Oferta națională Lidl este eligibilă numai în propriul context.
 - CSV descărcat cu proveniență, bază și contextul produsului ales; funcțiile de export au fost verificate și pe intrări care ar putea declanșa formule.
 - Dovada păstrează referința aleasă; tasta Escape închide dialogul. Nicio eroare JavaScript în parcursurile testate.
+
+După testare, aplicația a fost repornită pe baza implicită. Amprenta datelor din `company`, `shopping_list` și `list_line` a rămas identică înainte și după repornire. Datele firmei și bazele de test nu au fost publicate.
 
 ![Lista de cumpărături](images/lista-desktop-2026-10-07.png)
 
